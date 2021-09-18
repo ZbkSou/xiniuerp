@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.biz.mapper.BizWarehouseInfoMapper">
+    
+    <resultMap type="BizWarehouseInfo" id="BizWarehouseInfoResult">
+        <result property="wId"    column="w_id"    />
+        <result property="warehouseSn"    column="warehouse_sn"    />
+        <result property="warehoustName"    column="warehoust_name"    />
+        <result property="warehousePhone"    column="warehouse_phone"    />
+        <result property="contact"    column="contact"    />
+        <result property="province"    column="province"    />
+        <result property="city"    column="city"    />
+        <result property="distrct"    column="distrct"    />
+        <result property="address"    column="address"    />
+        <result property="warehouseStatus"    column="warehouse_status"    />
+        <result property="modifiedTime"    column="modified_time"    />
+    </resultMap>
+
+    <sql id="selectBizWarehouseInfoVo">
+        select w_id, warehouse_sn, warehoust_name, warehouse_phone, contact, province, city, distrct, address, warehouse_status, modified_time from biz_warehouse_info
+    </sql>
+
+    <select id="selectBizWarehouseInfoList" parameterType="BizWarehouseInfo" resultMap="BizWarehouseInfoResult">
+        <include refid="selectBizWarehouseInfoVo"/>
+        <where>  
+            <if test="warehouseSn != null  and warehouseSn != ''"> and warehouse_sn = #{warehouseSn}</if>
+            <if test="warehoustName != null  and warehoustName != ''"> and warehoust_name like concat('%', #{warehoustName}, '%')</if>
+            <if test="warehousePhone != null  and warehousePhone != ''"> and warehouse_phone = #{warehousePhone}</if>
+            <if test="contact != null  and contact != ''"> and contact = #{contact}</if>
+            <if test="province != null "> and province = #{province}</if>
+            <if test="city != null "> and city = #{city}</if>
+            <if test="distrct != null "> and distrct = #{distrct}</if>
+            <if test="address != null  and address != ''"> and address = #{address}</if>
+            <if test="warehouseStatus != null "> and warehouse_status = #{warehouseStatus}</if>
+            <if test="modifiedTime != null "> and modified_time = #{modifiedTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectBizWarehouseInfoByWId" parameterType="Integer" resultMap="BizWarehouseInfoResult">
+        <include refid="selectBizWarehouseInfoVo"/>
+        where w_id = #{wId}
+    </select>
+        
+    <insert id="insertBizWarehouseInfo" parameterType="BizWarehouseInfo" useGeneratedKeys="true" keyProperty="wId">
+        insert into biz_warehouse_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="warehouseSn != null and warehouseSn != ''">warehouse_sn,</if>
+            <if test="warehoustName != null and warehoustName != ''">warehoust_name,</if>
+            <if test="warehousePhone != null and warehousePhone != ''">warehouse_phone,</if>
+            <if test="contact != null and contact != ''">contact,</if>
+            <if test="province != null">province,</if>
+            <if test="city != null">city,</if>
+            <if test="distrct != null">distrct,</if>
+            <if test="address != null and address != ''">address,</if>
+            <if test="warehouseStatus != null">warehouse_status,</if>
+            <if test="modifiedTime != null">modified_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="warehouseSn != null and warehouseSn != ''">#{warehouseSn},</if>
+            <if test="warehoustName != null and warehoustName != ''">#{warehoustName},</if>
+            <if test="warehousePhone != null and warehousePhone != ''">#{warehousePhone},</if>
+            <if test="contact != null and contact != ''">#{contact},</if>
+            <if test="province != null">#{province},</if>
+            <if test="city != null">#{city},</if>
+            <if test="distrct != null">#{distrct},</if>
+            <if test="address != null and address != ''">#{address},</if>
+            <if test="warehouseStatus != null">#{warehouseStatus},</if>
+            <if test="modifiedTime != null">#{modifiedTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBizWarehouseInfo" parameterType="BizWarehouseInfo">
+        update biz_warehouse_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="warehouseSn != null and warehouseSn != ''">warehouse_sn = #{warehouseSn},</if>
+            <if test="warehoustName != null and warehoustName != ''">warehoust_name = #{warehoustName},</if>
+            <if test="warehousePhone != null and warehousePhone != ''">warehouse_phone = #{warehousePhone},</if>
+            <if test="contact != null and contact != ''">contact = #{contact},</if>
+            <if test="province != null">province = #{province},</if>
+            <if test="city != null">city = #{city},</if>
+            <if test="distrct != null">distrct = #{distrct},</if>
+            <if test="address != null and address != ''">address = #{address},</if>
+            <if test="warehouseStatus != null">warehouse_status = #{warehouseStatus},</if>
+            <if test="modifiedTime != null">modified_time = #{modifiedTime},</if>
+        </trim>
+        where w_id = #{wId}
+    </update>
+
+    <delete id="deleteBizWarehouseInfoByWId" parameterType="Integer">
+        delete from biz_warehouse_info where w_id = #{wId}
+    </delete>
+
+    <delete id="deleteBizWarehouseInfoByWIds" parameterType="String">
+        delete from biz_warehouse_info where w_id in 
+        <foreach item="wId" collection="array" open="(" separator="," close=")">
+            #{wId}
+        </foreach>
+    </delete>
+</mapper>

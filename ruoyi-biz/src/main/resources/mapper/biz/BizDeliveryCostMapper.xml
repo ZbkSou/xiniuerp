@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.biz.mapper.BizDeliveryCostMapper">
+    
+    <resultMap type="BizDeliveryCost" id="BizDeliveryCostResult">
+        <result property="id"    column="id"    />
+        <result property="productId"    column="product_id"    />
+        <result property="categoryId"    column="category_id"    />
+        <result property="productCode"    column="product_code"    />
+        <result property="supplierCode"    column="supplier_code"    />
+        <result property="splitShipment"    column="split_shipment"    />
+        <result property="boxId"    column="box_id"    />
+        <result property="boxCnt"    column="box_cnt"    />
+        <result property="extraPackageCost"    column="extra_package_cost"    />
+        <result property="packageCost"    column="package_cost"    />
+        <result property="wId"    column="w_id"    />
+        <result property="unpayDeliveryCost"    column="unpay_delivery_cost"    />
+        <result property="deliveryCost"    column="delivery_cost"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="modifiedTime"    column="modified_time"    />
+    </resultMap>
+
+    <sql id="selectBizDeliveryCostVo">
+        select id, product_id, category_id, product_code, supplier_code, split_shipment, box_id, box_cnt, extra_package_cost, package_cost, w_id, unpay_delivery_cost, delivery_cost, update_by, update_time, remark, modified_time from biz_delivery_cost
+    </sql>
+
+    <select id="selectBizDeliveryCostList" parameterType="BizDeliveryCost" resultMap="BizDeliveryCostResult">
+        <include refid="selectBizDeliveryCostVo"/>
+        <where>  
+            <if test="productId != null "> and product_id = #{productId}</if>
+            <if test="categoryId != null "> and category_id = #{categoryId}</if>
+            <if test="productCode != null  and productCode != ''"> and product_code = #{productCode}</if>
+            <if test="supplierCode != null  and supplierCode != ''"> and supplier_code = #{supplierCode}</if>
+            <if test="splitShipment != null "> and split_shipment = #{splitShipment}</if>
+            <if test="boxId != null "> and box_id = #{boxId}</if>
+            <if test="boxCnt != null "> and box_cnt = #{boxCnt}</if>
+            <if test="extraPackageCost != null "> and extra_package_cost = #{extraPackageCost}</if>
+            <if test="packageCost != null "> and package_cost = #{packageCost}</if>
+            <if test="wId != null "> and w_id = #{wId}</if>
+            <if test="unpayDeliveryCost != null "> and unpay_delivery_cost = #{unpayDeliveryCost}</if>
+            <if test="deliveryCost != null "> and delivery_cost = #{deliveryCost}</if>
+            <if test="modifiedTime != null "> and modified_time = #{modifiedTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectBizDeliveryCostById" parameterType="Integer" resultMap="BizDeliveryCostResult">
+        <include refid="selectBizDeliveryCostVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertBizDeliveryCost" parameterType="BizDeliveryCost" useGeneratedKeys="true" keyProperty="id">
+        insert into biz_delivery_cost
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="productId != null">product_id,</if>
+            <if test="categoryId != null">category_id,</if>
+            <if test="productCode != null and productCode != ''">product_code,</if>
+            <if test="supplierCode != null and supplierCode != ''">supplier_code,</if>
+            <if test="splitShipment != null">split_shipment,</if>
+            <if test="boxId != null">box_id,</if>
+            <if test="boxCnt != null">box_cnt,</if>
+            <if test="extraPackageCost != null">extra_package_cost,</if>
+            <if test="packageCost != null">package_cost,</if>
+            <if test="wId != null">w_id,</if>
+            <if test="unpayDeliveryCost != null">unpay_delivery_cost,</if>
+            <if test="deliveryCost != null">delivery_cost,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+            <if test="modifiedTime != null">modified_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="productId != null">#{productId},</if>
+            <if test="categoryId != null">#{categoryId},</if>
+            <if test="productCode != null and productCode != ''">#{productCode},</if>
+            <if test="supplierCode != null and supplierCode != ''">#{supplierCode},</if>
+            <if test="splitShipment != null">#{splitShipment},</if>
+            <if test="boxId != null">#{boxId},</if>
+            <if test="boxCnt != null">#{boxCnt},</if>
+            <if test="extraPackageCost != null">#{extraPackageCost},</if>
+            <if test="packageCost != null">#{packageCost},</if>
+            <if test="wId != null">#{wId},</if>
+            <if test="unpayDeliveryCost != null">#{unpayDeliveryCost},</if>
+            <if test="deliveryCost != null">#{deliveryCost},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="modifiedTime != null">#{modifiedTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBizDeliveryCost" parameterType="BizDeliveryCost">
+        update biz_delivery_cost
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="productId != null">product_id = #{productId},</if>
+            <if test="categoryId != null">category_id = #{categoryId},</if>
+            <if test="productCode != null and productCode != ''">product_code = #{productCode},</if>
+            <if test="supplierCode != null and supplierCode != ''">supplier_code = #{supplierCode},</if>
+            <if test="splitShipment != null">split_shipment = #{splitShipment},</if>
+            <if test="boxId != null">box_id = #{boxId},</if>
+            <if test="boxCnt != null">box_cnt = #{boxCnt},</if>
+            <if test="extraPackageCost != null">extra_package_cost = #{extraPackageCost},</if>
+            <if test="packageCost != null">package_cost = #{packageCost},</if>
+            <if test="wId != null">w_id = #{wId},</if>
+            <if test="unpayDeliveryCost != null">unpay_delivery_cost = #{unpayDeliveryCost},</if>
+            <if test="deliveryCost != null">delivery_cost = #{deliveryCost},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="modifiedTime != null">modified_time = #{modifiedTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBizDeliveryCostById" parameterType="Integer">
+        delete from biz_delivery_cost where id = #{id}
+    </delete>
+
+    <delete id="deleteBizDeliveryCostByIds" parameterType="String">
+        delete from biz_delivery_cost where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

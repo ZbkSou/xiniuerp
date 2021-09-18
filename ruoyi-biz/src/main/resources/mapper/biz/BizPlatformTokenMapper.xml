@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.biz.mapper.BizPlatformTokenMapper">
+    
+    <resultMap type="BizPlatformToken" id="BizPlatformTokenResult">
+        <result property="id"    column="id"    />
+        <result property="deptId"    column="dept_id"    />
+        <result property="refreshToken"    column="refresh_token"    />
+        <result property="accessToken"    column="access_token"    />
+        <result property="code"    column="code"    />
+        <result property="expireTime"    column="expire_time"    />
+        <result property="platform"    column="platform"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="storeName"    column="store_name"    />
+    </resultMap>
+
+    <sql id="selectBizPlatformTokenVo">
+        select id, dept_id, refresh_token, access_token, code, expire_time, platform, create_by, create_time, update_by, update_time, remark, store_name from biz_platform_token
+    </sql>
+
+    <select id="selectBizPlatformTokenList" parameterType="BizPlatformToken" resultMap="BizPlatformTokenResult">
+        <include refid="selectBizPlatformTokenVo"/>
+        <where>  
+            <if test="deptId != null "> and dept_id = #{deptId}</if>
+            <if test="refreshToken != null  and refreshToken != ''"> and refresh_token = #{refreshToken}</if>
+            <if test="accessToken != null  and accessToken != ''"> and access_token = #{accessToken}</if>
+            <if test="code != null  and code != ''"> and code = #{code}</if>
+            <if test="expireTime != null "> and expire_time = #{expireTime}</if>
+            <if test="platform != null  and platform != ''"> and platform = #{platform}</if>
+            <if test="storeName != null  and storeName != ''"> and store_name like concat('%', #{storeName}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectBizPlatformTokenById" parameterType="Long" resultMap="BizPlatformTokenResult">
+        <include refid="selectBizPlatformTokenVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertBizPlatformToken" parameterType="BizPlatformToken">
+        insert into biz_platform_token
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="deptId != null">dept_id,</if>
+            <if test="refreshToken != null">refresh_token,</if>
+            <if test="accessToken != null">access_token,</if>
+            <if test="code != null">code,</if>
+            <if test="expireTime != null">expire_time,</if>
+            <if test="platform != null">platform,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null and remark != ''">remark,</if>
+            <if test="storeName != null">store_name,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="deptId != null">#{deptId},</if>
+            <if test="refreshToken != null">#{refreshToken},</if>
+            <if test="accessToken != null">#{accessToken},</if>
+            <if test="code != null">#{code},</if>
+            <if test="expireTime != null">#{expireTime},</if>
+            <if test="platform != null">#{platform},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null and remark != ''">#{remark},</if>
+            <if test="storeName != null">#{storeName},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBizPlatformToken" parameterType="BizPlatformToken">
+        update biz_platform_token
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="deptId != null">dept_id = #{deptId},</if>
+            <if test="refreshToken != null">refresh_token = #{refreshToken},</if>
+            <if test="accessToken != null">access_token = #{accessToken},</if>
+            <if test="code != null">code = #{code},</if>
+            <if test="expireTime != null">expire_time = #{expireTime},</if>
+            <if test="platform != null">platform = #{platform},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null and remark != ''">remark = #{remark},</if>
+            <if test="storeName != null">store_name = #{storeName},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBizPlatformTokenById" parameterType="Long">
+        delete from biz_platform_token where id = #{id}
+    </delete>
+
+    <delete id="deleteBizPlatformTokenByIds" parameterType="String">
+        delete from biz_platform_token where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

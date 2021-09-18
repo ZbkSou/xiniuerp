@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.biz.mapper.BizProductInfoMapper">
+    
+    <resultMap type="BizProductInfo" id="BizProductInfoResult">
+        <result property="id"    column="id"    />
+        <result property="productCode"    column="product_code"    />
+        <result property="productName"    column="product_name"    />
+        <result property="barCode"    column="bar_code"    />
+        <result property="oneCategoryId"    column="one_category_id"    />
+        <result property="twoCategoryId"    column="two_category_id"    />
+        <result property="threeCategoryId"    column="three_category_id"    />
+        <result property="supplierId"    column="supplier_id"    />
+        <result property="supplierCode"    column="supplier_code"    />
+        <result property="publishStatus"    column="publish_status"    />
+        <result property="auditStatus"    column="audit_status"    />
+        <result property="weight"    column="weight"    />
+        <result property="length"    column="length"    />
+        <result property="height"    column="height"    />
+        <result property="width"    column="width"    />
+        <result property="productModels"    column="product_models"    />
+        <result property="defaultCost"    column="default_cost"    />
+        <result property="shelfLife"    column="shelf_life"    />
+        <result property="descript"    column="descript"    />
+        <result property="remind"    column="remind"    />
+        <result property="manyModels"    column="many_models"    />
+        <result property="indate"    column="indate"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="remark2"    column="remark2"    />
+        <result property="remark3"    column="remark3"    />
+    </resultMap>
+
+    <sql id="selectBizProductInfoVo">
+        select id, product_code, product_name, bar_code, one_category_id, two_category_id, three_category_id, supplier_id, supplier_code, publish_status, audit_status, weight, length, height, width, product_models, default_cost, shelf_life, descript, remind, many_models, indate, create_by, create_time, update_by, update_time, remark, remark2, remark3 from biz_product_info
+    </sql>
+
+    <select id="selectBizProductInfoList" parameterType="BizProductInfo" resultMap="BizProductInfoResult">
+        <include refid="selectBizProductInfoVo"/>
+        <where>  
+            <if test="productCode != null  and productCode != ''"> and product_code = #{productCode}</if>
+            <if test="productName != null  and productName != ''"> and product_name like concat('%', #{productName}, '%')</if>
+            <if test="barCode != null  and barCode != ''"> and bar_code = #{barCode}</if>
+            <if test="oneCategoryId != null "> and one_category_id = #{oneCategoryId}</if>
+            <if test="twoCategoryId != null "> and two_category_id = #{twoCategoryId}</if>
+            <if test="threeCategoryId != null "> and three_category_id = #{threeCategoryId}</if>
+            <if test="supplierId != null "> and supplier_id = #{supplierId}</if>
+            <if test="supplierCode != null  and supplierCode != ''"> and supplier_code = #{supplierCode}</if>
+            <if test="publishStatus != null "> and publish_status = #{publishStatus}</if>
+            <if test="auditStatus != null "> and audit_status = #{auditStatus}</if>
+            <if test="weight != null "> and weight = #{weight}</if>
+            <if test="length != null "> and length = #{length}</if>
+            <if test="height != null "> and height = #{height}</if>
+            <if test="width != null "> and width = #{width}</if>
+            <if test="productModels != null  and productModels != ''"> and product_models = #{productModels}</if>
+            <if test="defaultCost != null "> and default_cost = #{defaultCost}</if>
+            <if test="shelfLife != null "> and shelf_life = #{shelfLife}</if>
+            <if test="descript != null  and descript != ''"> and descript = #{descript}</if>
+            <if test="remind != null  and remind != ''"> and remind = #{remind}</if>
+            <if test="manyModels != null "> and many_models = #{manyModels}</if>
+            <if test="indate != null "> and indate = #{indate}</if>
+            <if test="remark2 != null  and remark2 != ''"> and remark2 = #{remark2}</if>
+            <if test="remark3 != null  and remark3 != ''"> and remark3 = #{remark3}</if>
+        </where>
+    </select>
+    
+    <select id="selectBizProductInfoById" parameterType="Integer" resultMap="BizProductInfoResult">
+        <include refid="selectBizProductInfoVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertBizProductInfo" parameterType="BizProductInfo" useGeneratedKeys="true" keyProperty="id">
+        insert into biz_product_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="productCode != null and productCode != ''">product_code,</if>
+            <if test="productName != null and productName != ''">product_name,</if>
+            <if test="barCode != null and barCode != ''">bar_code,</if>
+            <if test="oneCategoryId != null">one_category_id,</if>
+            <if test="twoCategoryId != null">two_category_id,</if>
+            <if test="threeCategoryId != null">three_category_id,</if>
+            <if test="supplierId != null">supplier_id,</if>
+            <if test="supplierCode != null and supplierCode != ''">supplier_code,</if>
+            <if test="publishStatus != null">publish_status,</if>
+            <if test="auditStatus != null">audit_status,</if>
+            <if test="weight != null">weight,</if>
+            <if test="length != null">length,</if>
+            <if test="height != null">height,</if>
+            <if test="width != null">width,</if>
+            <if test="productModels != null and productModels != ''">product_models,</if>
+            <if test="defaultCost != null">default_cost,</if>
+            <if test="shelfLife != null">shelf_life,</if>
+            <if test="descript != null and descript != ''">descript,</if>
+            <if test="remind != null and remind != ''">remind,</if>
+            <if test="manyModels != null">many_models,</if>
+            <if test="indate != null">indate,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null and remark != ''">remark,</if>
+            <if test="remark2 != null and remark2 != ''">remark2,</if>
+            <if test="remark3 != null and remark3 != ''">remark3,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="productCode != null and productCode != ''">#{productCode},</if>
+            <if test="productName != null and productName != ''">#{productName},</if>
+            <if test="barCode != null and barCode != ''">#{barCode},</if>
+            <if test="oneCategoryId != null">#{oneCategoryId},</if>
+            <if test="twoCategoryId != null">#{twoCategoryId},</if>
+            <if test="threeCategoryId != null">#{threeCategoryId},</if>
+            <if test="supplierId != null">#{supplierId},</if>
+            <if test="supplierCode != null and supplierCode != ''">#{supplierCode},</if>
+            <if test="publishStatus != null">#{publishStatus},</if>
+            <if test="auditStatus != null">#{auditStatus},</if>
+            <if test="weight != null">#{weight},</if>
+            <if test="length != null">#{length},</if>
+            <if test="height != null">#{height},</if>
+            <if test="width != null">#{width},</if>
+            <if test="productModels != null and productModels != ''">#{productModels},</if>
+            <if test="defaultCost != null">#{defaultCost},</if>
+            <if test="shelfLife != null">#{shelfLife},</if>
+            <if test="descript != null and descript != ''">#{descript},</if>
+            <if test="remind != null and remind != ''">#{remind},</if>
+            <if test="manyModels != null">#{manyModels},</if>
+            <if test="indate != null">#{indate},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null and remark != ''">#{remark},</if>
+            <if test="remark2 != null and remark2 != ''">#{remark2},</if>
+            <if test="remark3 != null and remark3 != ''">#{remark3},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBizProductInfo" parameterType="BizProductInfo">
+        update biz_product_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="productCode != null and productCode != ''">product_code = #{productCode},</if>
+            <if test="productName != null and productName != ''">product_name = #{productName},</if>
+            <if test="barCode != null and barCode != ''">bar_code = #{barCode},</if>
+            <if test="oneCategoryId != null">one_category_id = #{oneCategoryId},</if>
+            <if test="twoCategoryId != null">two_category_id = #{twoCategoryId},</if>
+            <if test="threeCategoryId != null">three_category_id = #{threeCategoryId},</if>
+            <if test="supplierId != null">supplier_id = #{supplierId},</if>
+            <if test="supplierCode != null and supplierCode != ''">supplier_code = #{supplierCode},</if>
+            <if test="publishStatus != null">publish_status = #{publishStatus},</if>
+            <if test="auditStatus != null">audit_status = #{auditStatus},</if>
+            <if test="weight != null">weight = #{weight},</if>
+            <if test="length != null">length = #{length},</if>
+            <if test="height != null">height = #{height},</if>
+            <if test="width != null">width = #{width},</if>
+            <if test="productModels != null and productModels != ''">product_models = #{productModels},</if>
+            <if test="defaultCost != null">default_cost = #{defaultCost},</if>
+            <if test="shelfLife != null">shelf_life = #{shelfLife},</if>
+            <if test="descript != null and descript != ''">descript = #{descript},</if>
+            <if test="remind != null and remind != ''">remind = #{remind},</if>
+            <if test="manyModels != null">many_models = #{manyModels},</if>
+            <if test="indate != null">indate = #{indate},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null and remark != ''">remark = #{remark},</if>
+            <if test="remark2 != null and remark2 != ''">remark2 = #{remark2},</if>
+            <if test="remark3 != null and remark3 != ''">remark3 = #{remark3},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBizProductInfoById" parameterType="Integer">
+        delete from biz_product_info where id = #{id}
+    </delete>
+
+    <delete id="deleteBizProductInfoByIds" parameterType="String">
+        delete from biz_product_info where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

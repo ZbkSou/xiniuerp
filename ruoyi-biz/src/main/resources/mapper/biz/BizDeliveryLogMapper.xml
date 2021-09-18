@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.biz.mapper.BizDeliveryLogMapper">
+    
+    <resultMap type="BizDeliveryLog" id="BizDeliveryLogResult">
+        <result property="id"    column="id"    />
+        <result property="orderId"    column="order_id"    />
+        <result property="orderCache"    column="order_cache"    />
+        <result property="boxJson"    column="box_json"    />
+        <result property="splitShipment"    column="split_shipment"    />
+        <result property="extraPackageCost"    column="extra_package_cost"    />
+        <result property="packageCost"    column="package_cost"    />
+        <result property="deliveryCost"    column="delivery_cost"    />
+        <result property="wId"    column="w_id"    />
+        <result property="payExtraPackage"    column="pay_extra_package"    />
+        <result property="payExtraDelivery"    column="pay_extra_delivery"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectBizDeliveryLogVo">
+        select id, order_id, order_cache, box_json, split_shipment, extra_package_cost, package_cost, delivery_cost, w_id, pay_extra_package, pay_extra_delivery, update_by, update_time, remark from biz_delivery_log
+    </sql>
+
+    <select id="selectBizDeliveryLogList" parameterType="BizDeliveryLog" resultMap="BizDeliveryLogResult">
+        <include refid="selectBizDeliveryLogVo"/>
+        <where>  
+            <if test="orderId != null "> and order_id = #{orderId}</if>
+            <if test="orderCache != null  and orderCache != ''"> and order_cache = #{orderCache}</if>
+            <if test="boxJson != null  and boxJson != ''"> and box_json = #{boxJson}</if>
+            <if test="splitShipment != null "> and split_shipment = #{splitShipment}</if>
+            <if test="extraPackageCost != null "> and extra_package_cost = #{extraPackageCost}</if>
+            <if test="packageCost != null "> and package_cost = #{packageCost}</if>
+            <if test="deliveryCost != null "> and delivery_cost = #{deliveryCost}</if>
+            <if test="wId != null "> and w_id = #{wId}</if>
+            <if test="payExtraPackage != null "> and pay_extra_package = #{payExtraPackage}</if>
+            <if test="payExtraDelivery != null "> and pay_extra_delivery = #{payExtraDelivery}</if>
+        </where>
+    </select>
+    
+    <select id="selectBizDeliveryLogById" parameterType="Integer" resultMap="BizDeliveryLogResult">
+        <include refid="selectBizDeliveryLogVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertBizDeliveryLog" parameterType="BizDeliveryLog" useGeneratedKeys="true" keyProperty="id">
+        insert into biz_delivery_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orderId != null">order_id,</if>
+            <if test="orderCache != null">order_cache,</if>
+            <if test="boxJson != null">box_json,</if>
+            <if test="splitShipment != null">split_shipment,</if>
+            <if test="extraPackageCost != null">extra_package_cost,</if>
+            <if test="packageCost != null">package_cost,</if>
+            <if test="deliveryCost != null">delivery_cost,</if>
+            <if test="wId != null">w_id,</if>
+            <if test="payExtraPackage != null">pay_extra_package,</if>
+            <if test="payExtraDelivery != null">pay_extra_delivery,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="orderId != null">#{orderId},</if>
+            <if test="orderCache != null">#{orderCache},</if>
+            <if test="boxJson != null">#{boxJson},</if>
+            <if test="splitShipment != null">#{splitShipment},</if>
+            <if test="extraPackageCost != null">#{extraPackageCost},</if>
+            <if test="packageCost != null">#{packageCost},</if>
+            <if test="deliveryCost != null">#{deliveryCost},</if>
+            <if test="wId != null">#{wId},</if>
+            <if test="payExtraPackage != null">#{payExtraPackage},</if>
+            <if test="payExtraDelivery != null">#{payExtraDelivery},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBizDeliveryLog" parameterType="BizDeliveryLog">
+        update biz_delivery_log
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="orderId != null">order_id = #{orderId},</if>
+            <if test="orderCache != null">order_cache = #{orderCache},</if>
+            <if test="boxJson != null">box_json = #{boxJson},</if>
+            <if test="splitShipment != null">split_shipment = #{splitShipment},</if>
+            <if test="extraPackageCost != null">extra_package_cost = #{extraPackageCost},</if>
+            <if test="packageCost != null">package_cost = #{packageCost},</if>
+            <if test="deliveryCost != null">delivery_cost = #{deliveryCost},</if>
+            <if test="wId != null">w_id = #{wId},</if>
+            <if test="payExtraPackage != null">pay_extra_package = #{payExtraPackage},</if>
+            <if test="payExtraDelivery != null">pay_extra_delivery = #{payExtraDelivery},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBizDeliveryLogById" parameterType="Integer">
+        delete from biz_delivery_log where id = #{id}
+    </delete>
+
+    <delete id="deleteBizDeliveryLogByIds" parameterType="String">
+        delete from biz_delivery_log where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

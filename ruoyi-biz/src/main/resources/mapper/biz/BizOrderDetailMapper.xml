@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.biz.mapper.BizOrderDetailMapper">
+    
+    <resultMap type="BizOrderDetail" id="BizOrderDetailResult">
+        <result property="id"    column="id"    />
+        <result property="orderId"    column="order_id"    />
+        <result property="productId"    column="product_id"    />
+        <result property="productName"    column="product_name"    />
+        <result property="productCode"    column="product_code"    />
+        <result property="supplierCode"    column="supplier_code"    />
+        <result property="productCnt"    column="product_cnt"    />
+        <result property="productPrice"    column="product_price"    />
+        <result property="averageCost"    column="average_cost"    />
+        <result property="weight"    column="weight"    />
+        <result property="feeMoney"    column="fee_money"    />
+        <result property="wId"    column="w_id"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="modifiedTime"    column="modified_time"    />
+    </resultMap>
+
+    <sql id="selectBizOrderDetailVo">
+        select id, order_id, product_id, product_name, product_code, supplier_code, product_cnt, product_price, average_cost, weight, fee_money, w_id, update_by, update_time, remark, modified_time from biz_order_detail
+    </sql>
+
+    <select id="selectBizOrderDetailList" parameterType="BizOrderDetail" resultMap="BizOrderDetailResult">
+        <include refid="selectBizOrderDetailVo"/>
+        <where>  
+            <if test="orderId != null "> and order_id = #{orderId}</if>
+            <if test="productId != null "> and product_id = #{productId}</if>
+            <if test="productName != null  and productName != ''"> and product_name like concat('%', #{productName}, '%')</if>
+            <if test="productCode != null  and productCode != ''"> and product_code = #{productCode}</if>
+            <if test="supplierCode != null  and supplierCode != ''"> and supplier_code = #{supplierCode}</if>
+            <if test="productCnt != null "> and product_cnt = #{productCnt}</if>
+            <if test="productPrice != null "> and product_price = #{productPrice}</if>
+            <if test="averageCost != null "> and average_cost = #{averageCost}</if>
+            <if test="weight != null "> and weight = #{weight}</if>
+            <if test="feeMoney != null "> and fee_money = #{feeMoney}</if>
+            <if test="wId != null "> and w_id = #{wId}</if>
+            <if test="modifiedTime != null "> and modified_time = #{modifiedTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectBizOrderDetailById" parameterType="Integer" resultMap="BizOrderDetailResult">
+        <include refid="selectBizOrderDetailVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertBizOrderDetail" parameterType="BizOrderDetail" useGeneratedKeys="true" keyProperty="id">
+        insert into biz_order_detail
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orderId != null">order_id,</if>
+            <if test="productId != null">product_id,</if>
+            <if test="productName != null and productName != ''">product_name,</if>
+            <if test="productCode != null and productCode != ''">product_code,</if>
+            <if test="supplierCode != null and supplierCode != ''">supplier_code,</if>
+            <if test="productCnt != null">product_cnt,</if>
+            <if test="productPrice != null">product_price,</if>
+            <if test="averageCost != null">average_cost,</if>
+            <if test="weight != null">weight,</if>
+            <if test="feeMoney != null">fee_money,</if>
+            <if test="wId != null">w_id,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+            <if test="modifiedTime != null">modified_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="orderId != null">#{orderId},</if>
+            <if test="productId != null">#{productId},</if>
+            <if test="productName != null and productName != ''">#{productName},</if>
+            <if test="productCode != null and productCode != ''">#{productCode},</if>
+            <if test="supplierCode != null and supplierCode != ''">#{supplierCode},</if>
+            <if test="productCnt != null">#{productCnt},</if>
+            <if test="productPrice != null">#{productPrice},</if>
+            <if test="averageCost != null">#{averageCost},</if>
+            <if test="weight != null">#{weight},</if>
+            <if test="feeMoney != null">#{feeMoney},</if>
+            <if test="wId != null">#{wId},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="modifiedTime != null">#{modifiedTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBizOrderDetail" parameterType="BizOrderDetail">
+        update biz_order_detail
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="orderId != null">order_id = #{orderId},</if>
+            <if test="productId != null">product_id = #{productId},</if>
+            <if test="productName != null and productName != ''">product_name = #{productName},</if>
+            <if test="productCode != null and productCode != ''">product_code = #{productCode},</if>
+            <if test="supplierCode != null and supplierCode != ''">supplier_code = #{supplierCode},</if>
+            <if test="productCnt != null">product_cnt = #{productCnt},</if>
+            <if test="productPrice != null">product_price = #{productPrice},</if>
+            <if test="averageCost != null">average_cost = #{averageCost},</if>
+            <if test="weight != null">weight = #{weight},</if>
+            <if test="feeMoney != null">fee_money = #{feeMoney},</if>
+            <if test="wId != null">w_id = #{wId},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="modifiedTime != null">modified_time = #{modifiedTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBizOrderDetailById" parameterType="Integer">
+        delete from biz_order_detail where id = #{id}
+    </delete>
+
+    <delete id="deleteBizOrderDetailByIds" parameterType="String">
+        delete from biz_order_detail where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

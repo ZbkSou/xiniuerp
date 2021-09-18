@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.biz.mapper.BizProductCategoryMapper">
+    
+    <resultMap type="BizProductCategory" id="BizProductCategoryResult">
+        <result property="categoryId"    column="category_id"    />
+        <result property="categoryName"    column="category_name"    />
+        <result property="categoryCode"    column="category_code"    />
+        <result property="parentId"    column="parent_id"    />
+        <result property="categoryLevel"    column="category_level"    />
+        <result property="categoryStatus"    column="category_status"    />
+        <result property="modifiedTime"    column="modified_time"    />
+    </resultMap>
+
+    <sql id="selectBizProductCategoryVo">
+        select category_id, category_name, category_code, parent_id, category_level, category_status, modified_time from biz_product_category
+    </sql>
+
+    <select id="selectBizProductCategoryList" parameterType="BizProductCategory" resultMap="BizProductCategoryResult">
+        <include refid="selectBizProductCategoryVo"/>
+        <where>  
+            <if test="categoryName != null  and categoryName != ''"> and category_name like concat('%', #{categoryName}, '%')</if>
+            <if test="categoryCode != null  and categoryCode != ''"> and category_code = #{categoryCode}</if>
+            <if test="parentId != null "> and parent_id = #{parentId}</if>
+            <if test="categoryLevel != null "> and category_level = #{categoryLevel}</if>
+            <if test="categoryStatus != null "> and category_status = #{categoryStatus}</if>
+            <if test="modifiedTime != null "> and modified_time = #{modifiedTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectBizProductCategoryByCategoryId" parameterType="Integer" resultMap="BizProductCategoryResult">
+        <include refid="selectBizProductCategoryVo"/>
+        where category_id = #{categoryId}
+    </select>
+        
+    <insert id="insertBizProductCategory" parameterType="BizProductCategory" useGeneratedKeys="true" keyProperty="categoryId">
+        insert into biz_product_category
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="categoryName != null and categoryName != ''">category_name,</if>
+            <if test="categoryCode != null and categoryCode != ''">category_code,</if>
+            <if test="parentId != null">parent_id,</if>
+            <if test="categoryLevel != null">category_level,</if>
+            <if test="categoryStatus != null">category_status,</if>
+            <if test="modifiedTime != null">modified_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="categoryName != null and categoryName != ''">#{categoryName},</if>
+            <if test="categoryCode != null and categoryCode != ''">#{categoryCode},</if>
+            <if test="parentId != null">#{parentId},</if>
+            <if test="categoryLevel != null">#{categoryLevel},</if>
+            <if test="categoryStatus != null">#{categoryStatus},</if>
+            <if test="modifiedTime != null">#{modifiedTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBizProductCategory" parameterType="BizProductCategory">
+        update biz_product_category
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="categoryName != null and categoryName != ''">category_name = #{categoryName},</if>
+            <if test="categoryCode != null and categoryCode != ''">category_code = #{categoryCode},</if>
+            <if test="parentId != null">parent_id = #{parentId},</if>
+            <if test="categoryLevel != null">category_level = #{categoryLevel},</if>
+            <if test="categoryStatus != null">category_status = #{categoryStatus},</if>
+            <if test="modifiedTime != null">modified_time = #{modifiedTime},</if>
+        </trim>
+        where category_id = #{categoryId}
+    </update>
+
+    <delete id="deleteBizProductCategoryByCategoryId" parameterType="Integer">
+        delete from biz_product_category where category_id = #{categoryId}
+    </delete>
+
+    <delete id="deleteBizProductCategoryByCategoryIds" parameterType="String">
+        delete from biz_product_category where category_id in 
+        <foreach item="categoryId" collection="array" open="(" separator="," close=")">
+            #{categoryId}
+        </foreach>
+    </delete>
+</mapper>

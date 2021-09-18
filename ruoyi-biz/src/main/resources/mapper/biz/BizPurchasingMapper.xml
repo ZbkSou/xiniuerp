@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.biz.mapper.BizPurchasingMapper">
+    
+    <resultMap type="BizPurchasing" id="BizPurchasingResult">
+        <result property="id"    column="id"    />
+        <result property="totalGoodsPice"    column="total_goods_pice"    />
+        <result property="extraPackageCost"    column="extra_package_cost"    />
+        <result property="deliveryCost"    column="delivery_cost"    />
+        <result property="wId"    column="w_id"    />
+        <result property="purchasingTime"    column="purchasing_time"    />
+        <result property="payTime"    column="pay_time"    />
+        <result property="enterTime"    column="enter_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectBizPurchasingVo">
+        select id, total_goods_pice, extra_package_cost, delivery_cost, w_id, purchasing_time, pay_time, enter_time, update_by, update_time, remark from biz_purchasing
+    </sql>
+
+    <select id="selectBizPurchasingList" parameterType="BizPurchasing" resultMap="BizPurchasingResult">
+        <include refid="selectBizPurchasingVo"/>
+        <where>  
+            <if test="totalGoodsPice != null "> and total_goods_pice = #{totalGoodsPice}</if>
+            <if test="extraPackageCost != null "> and extra_package_cost = #{extraPackageCost}</if>
+            <if test="deliveryCost != null "> and delivery_cost = #{deliveryCost}</if>
+            <if test="wId != null "> and w_id = #{wId}</if>
+            <if test="purchasingTime != null "> and purchasing_time = #{purchasingTime}</if>
+            <if test="payTime != null "> and pay_time = #{payTime}</if>
+            <if test="enterTime != null "> and enter_time = #{enterTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectBizPurchasingById" parameterType="Integer" resultMap="BizPurchasingResult">
+        <include refid="selectBizPurchasingVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertBizPurchasing" parameterType="BizPurchasing" useGeneratedKeys="true" keyProperty="id">
+        insert into biz_purchasing
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="totalGoodsPice != null">total_goods_pice,</if>
+            <if test="extraPackageCost != null">extra_package_cost,</if>
+            <if test="deliveryCost != null">delivery_cost,</if>
+            <if test="wId != null">w_id,</if>
+            <if test="purchasingTime != null">purchasing_time,</if>
+            <if test="payTime != null">pay_time,</if>
+            <if test="enterTime != null">enter_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="totalGoodsPice != null">#{totalGoodsPice},</if>
+            <if test="extraPackageCost != null">#{extraPackageCost},</if>
+            <if test="deliveryCost != null">#{deliveryCost},</if>
+            <if test="wId != null">#{wId},</if>
+            <if test="purchasingTime != null">#{purchasingTime},</if>
+            <if test="payTime != null">#{payTime},</if>
+            <if test="enterTime != null">#{enterTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBizPurchasing" parameterType="BizPurchasing">
+        update biz_purchasing
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="totalGoodsPice != null">total_goods_pice = #{totalGoodsPice},</if>
+            <if test="extraPackageCost != null">extra_package_cost = #{extraPackageCost},</if>
+            <if test="deliveryCost != null">delivery_cost = #{deliveryCost},</if>
+            <if test="wId != null">w_id = #{wId},</if>
+            <if test="purchasingTime != null">purchasing_time = #{purchasingTime},</if>
+            <if test="payTime != null">pay_time = #{payTime},</if>
+            <if test="enterTime != null">enter_time = #{enterTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBizPurchasingById" parameterType="Integer">
+        delete from biz_purchasing where id = #{id}
+    </delete>
+
+    <delete id="deleteBizPurchasingByIds" parameterType="String">
+        delete from biz_purchasing where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

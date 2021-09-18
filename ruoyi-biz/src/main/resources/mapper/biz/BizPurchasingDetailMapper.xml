@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.biz.mapper.BizPurchasingDetailMapper">
+    
+    <resultMap type="BizPurchasingDetail" id="BizPurchasingDetailResult">
+        <result property="id"    column="id"    />
+        <result property="purchasingId"    column="purchasing_id"    />
+        <result property="productCode"    column="product_code"    />
+        <result property="productName"    column="product_name"    />
+        <result property="productModelsId"    column="product_models_id"    />
+        <result property="count"    column="count"    />
+        <result property="pice"    column="pice"    />
+        <result property="supplierId"    column="supplier_id"    />
+        <result property="supplierCode"    column="supplier_code"    />
+        <result property="wId"    column="w_id"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectBizPurchasingDetailVo">
+        select id, purchasing_id, product_code, product_name, product_models_id, count, pice, supplier_id, supplier_code, w_id, create_by, create_time, update_by, update_time, remark from biz_purchasing_detail
+    </sql>
+
+    <select id="selectBizPurchasingDetailList" parameterType="BizPurchasingDetail" resultMap="BizPurchasingDetailResult">
+        <include refid="selectBizPurchasingDetailVo"/>
+        <where>  
+            <if test="purchasingId != null "> and purchasing_id = #{purchasingId}</if>
+            <if test="productCode != null  and productCode != ''"> and product_code = #{productCode}</if>
+            <if test="productName != null  and productName != ''"> and product_name like concat('%', #{productName}, '%')</if>
+            <if test="productModelsId != null  and productModelsId != ''"> and product_models_id = #{productModelsId}</if>
+            <if test="count != null "> and count = #{count}</if>
+            <if test="pice != null "> and pice = #{pice}</if>
+            <if test="supplierId != null "> and supplier_id = #{supplierId}</if>
+            <if test="supplierCode != null  and supplierCode != ''"> and supplier_code = #{supplierCode}</if>
+            <if test="wId != null "> and w_id = #{wId}</if>
+        </where>
+    </select>
+    
+    <select id="selectBizPurchasingDetailById" parameterType="Integer" resultMap="BizPurchasingDetailResult">
+        <include refid="selectBizPurchasingDetailVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertBizPurchasingDetail" parameterType="BizPurchasingDetail" useGeneratedKeys="true" keyProperty="id">
+        insert into biz_purchasing_detail
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="purchasingId != null">purchasing_id,</if>
+            <if test="productCode != null and productCode != ''">product_code,</if>
+            <if test="productName != null and productName != ''">product_name,</if>
+            <if test="productModelsId != null">product_models_id,</if>
+            <if test="count != null">count,</if>
+            <if test="pice != null">pice,</if>
+            <if test="supplierId != null">supplier_id,</if>
+            <if test="supplierCode != null and supplierCode != ''">supplier_code,</if>
+            <if test="wId != null">w_id,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="purchasingId != null">#{purchasingId},</if>
+            <if test="productCode != null and productCode != ''">#{productCode},</if>
+            <if test="productName != null and productName != ''">#{productName},</if>
+            <if test="productModelsId != null">#{productModelsId},</if>
+            <if test="count != null">#{count},</if>
+            <if test="pice != null">#{pice},</if>
+            <if test="supplierId != null">#{supplierId},</if>
+            <if test="supplierCode != null and supplierCode != ''">#{supplierCode},</if>
+            <if test="wId != null">#{wId},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBizPurchasingDetail" parameterType="BizPurchasingDetail">
+        update biz_purchasing_detail
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="purchasingId != null">purchasing_id = #{purchasingId},</if>
+            <if test="productCode != null and productCode != ''">product_code = #{productCode},</if>
+            <if test="productName != null and productName != ''">product_name = #{productName},</if>
+            <if test="productModelsId != null">product_models_id = #{productModelsId},</if>
+            <if test="count != null">count = #{count},</if>
+            <if test="pice != null">pice = #{pice},</if>
+            <if test="supplierId != null">supplier_id = #{supplierId},</if>
+            <if test="supplierCode != null and supplierCode != ''">supplier_code = #{supplierCode},</if>
+            <if test="wId != null">w_id = #{wId},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBizPurchasingDetailById" parameterType="Integer">
+        delete from biz_purchasing_detail where id = #{id}
+    </delete>
+
+    <delete id="deleteBizPurchasingDetailByIds" parameterType="String">
+        delete from biz_purchasing_detail where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
