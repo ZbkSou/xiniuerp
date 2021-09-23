@@ -1,5 +1,6 @@
 package com.ruoyi.biz.controller;
 
+import java.util.Date;
 import java.util.List;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,6 +77,7 @@ public class BizProductCategoryController extends BaseController
     @PostMapping
     public AjaxResult add(@RequestBody BizProductCategory bizProductCategory)
     {
+        bizProductCategory.setModifiedTime(new Date());
         return toAjax(bizProductCategoryService.insertBizProductCategory(bizProductCategory));
     }
 

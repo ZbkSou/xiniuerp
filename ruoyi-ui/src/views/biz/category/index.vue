@@ -39,7 +39,12 @@
       </el-form-item>
       <el-form-item label="分类状态" prop="categoryStatus">
         <el-select v-model="queryParams.categoryStatus" placeholder="请选择分类状态" clearable size="small">
-          <el-option label="请选择字典生成" value="" />
+          <el-option
+            v-for="dict in statusOptions"
+            :key="dict.dictValue"
+            :label="dict.dictLabel"
+            :value="dict.dictValue"
+          ></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="最后修改时间" prop="modifiedTime">
@@ -110,10 +115,14 @@
       <el-table-column label="分类编码" align="center" prop="categoryCode" />
       <el-table-column label="父分类ID" align="center" prop="parentId" />
       <el-table-column label="分类层级" align="center" prop="categoryLevel" />
-      <el-table-column label="分类状态" align="center" prop="categoryStatus" />
+      <el-table-column label="分类状态" align="center" prop="categoryStatus" >
+        <template slot-scope="scope">
+          <dict-tag :options="statusOptions" :value="scope.row.categoryStatus"/>
+        </template>
+      </el-table-column>
       <el-table-column label="最后修改时间" align="center" prop="modifiedTime" width="180">
         <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.modifiedTime, '{y}-{m}-{d}') }}</span>
+          <span>{{ parseTime(scope.row.modifiedTime) }}</span>
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
@@ -135,7 +144,7 @@
         </template>
       </el-table-column>
     </el-table>
-    
+
     <pagination
       v-show="total>0"
       :total="total"
@@ -160,18 +169,15 @@
           <el-input v-model="form.categoryLevel" placeholder="请输入分类层级" />
         </el-form-item>
         <el-form-item label="分类状态">
-          <el-radio-group v-model="form.categoryStatus">
-            <el-radio label="1">请选择字典生成</el-radio>
+          <el-radio-group v-model="form.categoryStatus" >
+            <el-radio
+              v-for="dict in statusOptions"
+              :key="dict.dictValue"
+              :label="dict.dictValue"
+            >{{dict.dictLabel}}</el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="最后修改时间" prop="modifiedTime">
-          <el-date-picker clearable size="small"
-            v-model="form.modifiedTime"
-            type="date"
-            value-format="yyyy-MM-dd"
-            placeholder="选择最后修改时间">
-          </el-date-picker>
-        </el-form-item>
+
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitForm">确 定</el-button>
@@ -208,6 +214,8 @@ export default {
       title: "",
       // 是否显示弹出层
       open: false,
+      // 状态数据字典
+      statusOptions: [],
       // 查询参数
       queryParams: {
         pageNum: 1,
@@ -217,7 +225,7 @@ export default {
         parentId: null,
         categoryLevel: null,
         categoryStatus: null,
-        modifiedTime: null
+
       },
       // 表单参数
       form: {},
@@ -238,14 +246,15 @@ export default {
         categoryStatus: [
           { required: true, message: "分类状态不能为空", trigger: "blur" }
         ],
-        modifiedTime: [
-          { required: true, message: "最后修改时间不能为空", trigger: "blur" }
-        ]
+
       }
     };
   },
   created() {
     this.getList();
+    this.getDicts("biz_product_category_status").then(response => {
+      this.statusOptions = response.data;
+    });
   },
   methods: {
     /** 查询商品分类列表 */
@@ -271,7 +280,7 @@ export default {
         parentId: null,
         categoryLevel: null,
         categoryStatus: 0,
-        modifiedTime: null
+
       };
       this.resetForm("form");
     },
