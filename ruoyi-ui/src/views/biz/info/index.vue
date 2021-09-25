@@ -55,7 +55,7 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="商品的供应商ID" prop="supplierId">
+      <el-form-item label="供应商ID" prop="supplierId">
         <el-input
           v-model="queryParams.supplierId"
           placeholder="请输入商品的供应商ID"
@@ -73,65 +73,32 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="上下架状态：0下架1上架" prop="publishStatus">
+
+      <el-form-item label="上下架状态：" prop="publishStatus">
         <el-select v-model="queryParams.publishStatus" placeholder="请选择上下架状态：0下架1上架" clearable size="small">
-          <el-option label="请选择字典生成" value="" />
+          <el-option
+            v-for="dict in publishStatusOptions"
+            :key="dict.dictValue"
+            :label="dict.dictLabel"
+            :value="dict.dictValue"
+          />
         </el-select>
       </el-form-item>
-      <el-form-item label="审核状态：0未审核，1已审核" prop="auditStatus">
+      <el-form-item label="审核状态：" prop="auditStatus">
         <el-select v-model="queryParams.auditStatus" placeholder="请选择审核状态：0未审核，1已审核" clearable size="small">
-          <el-option label="请选择字典生成" value="" />
+          <el-option
+            v-for="dict in auditStatusOptions"
+            :key="dict.dictValue"
+            :label="dict.dictLabel"
+            :value="dict.dictValue"
+          />
         </el-select>
       </el-form-item>
-      <el-form-item label="商品重量" prop="weight">
-        <el-input
-          v-model="queryParams.weight"
-          placeholder="请输入商品重量"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="商品长度" prop="length">
-        <el-input
-          v-model="queryParams.length"
-          placeholder="请输入商品长度"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="商品高度" prop="height">
-        <el-input
-          v-model="queryParams.height"
-          placeholder="请输入商品高度"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="商品宽度" prop="width">
-        <el-input
-          v-model="queryParams.width"
-          placeholder="请输入商品宽度"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="产品型号" prop="productModels">
-        <el-input
-          v-model="queryParams.productModels"
-          placeholder="请输入产品型号"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
+
       <el-form-item label="商品默认出厂成本" prop="defaultCost">
         <el-input
           v-model="queryParams.defaultCost"
-          placeholder="请输入商品默认出厂成本"
+          placeholder="请输入商品默认进货成本"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
@@ -146,23 +113,16 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="商品提醒" prop="remind">
-        <el-input
-          v-model="queryParams.remind"
-          placeholder="请输入商品提醒"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="拥有多型号：0否1是" prop="manyModels">
-        <el-input
-          v-model="queryParams.manyModels"
-          placeholder="请输入拥有多型号：0否1是"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
+
+      <el-form-item label="拥有多型号：" prop="manyModels">
+        <el-select v-model="queryParams.auditStatus" placeholder="请选择审核状态：" clearable size="small">
+          <el-option
+            v-for="dict in manyModelsOptions"
+            :key="dict.dictValue"
+            :label="dict.dictLabel"
+            :value="dict.dictValue"
+          />
+        </el-select>
       </el-form-item>
       <el-form-item label="商品录入时间" prop="indate">
         <el-date-picker clearable size="small"
@@ -230,32 +190,42 @@
       <el-table-column label="商品ID" align="center" prop="id" />
       <el-table-column label="商品编码" align="center" prop="productCode" />
       <el-table-column label="商品名称" align="center" prop="productName" />
-      <el-table-column label="国条码" align="center" prop="barCode" />
-      <el-table-column label="一级分类ID" align="center" prop="oneCategoryId" />
-      <el-table-column label="二级分类ID" align="center" prop="twoCategoryId" />
-      <el-table-column label="三级分类ID" align="center" prop="threeCategoryId" />
-      <el-table-column label="商品的供应商ID" align="center" prop="supplierId" />
-      <el-table-column label="供应商编码" align="center" prop="supplierCode" />
-      <el-table-column label="上下架状态：0下架1上架" align="center" prop="publishStatus" />
-      <el-table-column label="审核状态：0未审核，1已审核" align="center" prop="auditStatus" />
-      <el-table-column label="商品重量" align="center" prop="weight" />
-      <el-table-column label="商品长度" align="center" prop="length" />
-      <el-table-column label="商品高度" align="center" prop="height" />
-      <el-table-column label="商品宽度" align="center" prop="width" />
-      <el-table-column label="产品型号" align="center" prop="productModels" />
-      <el-table-column label="商品默认出厂成本" align="center" prop="defaultCost" />
-      <el-table-column label="商品有效期" align="center" prop="shelfLife" />
-      <el-table-column label="商品描述" align="center" prop="descript" />
-      <el-table-column label="商品提醒" align="center" prop="remind" />
-      <el-table-column label="拥有多型号：0否1是" align="center" prop="manyModels" />
-      <el-table-column label="商品录入时间" align="center" prop="indate" width="180">
+<!--      <el-table-column label="国条码" align="center" prop="barCode" />-->
+      <el-table-column label="一级分类" align="center" prop="oneCategoryId" />
+<!--      <el-table-column label="二级分类" align="center" prop="twoCategoryId" />-->
+<!--      <el-table-column label="三级分类" align="center" prop="threeCategoryId" />-->
+      <el-table-column label="供应商ID" align="center" prop="supplierId" />
+      <el-table-column label="供应商" align="center" prop="supplierCode" />
+      <el-table-column label="上下架：" align="center" prop="publishStatus" >
         <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.indate, '{y}-{m}-{d}') }}</span>
+          <dict-tag :options="publishStatusOptions" :value="scope.row.publishStatus"/>
         </template>
       </el-table-column>
-      <el-table-column label="备注" align="center" prop="remark" />
-      <el-table-column label="备注2" align="center" prop="remark2" />
-      <el-table-column label="备注3" align="center" prop="remark3" />
+      <el-table-column label="审核：" align="center" prop="auditStatus" >
+        <template slot-scope="scope">
+          <dict-tag :options="auditStatusOptions" :value="scope.row.auditStatus"/>
+        </template>
+      </el-table-column>
+      <el-table-column label="重量" align="center" prop="weight" />
+      <el-table-column label="长度" align="center" prop="length" />
+      <el-table-column label="高度" align="center" prop="height" />
+      <el-table-column label="宽度" align="center" prop="width" />
+      <el-table-column label="产品型号" align="center" prop="productModels" />
+      <el-table-column label="商品进价" align="center" prop="defaultCost" />
+<!--      <el-table-column label="有效期" align="center" prop="shelfLife" />-->
+<!--      <el-table-column label="描述" align="center" prop="descript" />-->
+<!--      <el-table-column label="提醒" align="center" prop="remind" />-->
+      <el-table-column label="拥有多型号：" align="center" prop="manyModels" >
+        <template slot-scope="scope">
+          <dict-tag :options="manyModelsOptions" :value="scope.row.manyModels"/>
+        </template>
+      </el-table-column>
+      <el-table-column label="录入时间" align="center" prop="indate" width="180">
+        <template slot-scope="scope">
+          <span>{{ parseTime(scope.row.indate) }}</span>
+        </template>
+      </el-table-column>
+<!--      <el-table-column label="备注" align="center" prop="remark" />-->
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -275,7 +245,7 @@
         </template>
       </el-table-column>
     </el-table>
-    
+
     <pagination
       v-show="total>0"
       :total="total"
@@ -311,63 +281,70 @@
         <el-form-item label="供应商编码" prop="supplierCode">
           <el-input v-model="form.supplierCode" placeholder="请输入供应商编码" />
         </el-form-item>
-        <el-form-item label="上下架状态：0下架1上架">
+        <el-form-item label="上下架：" prop="publishStatus">
           <el-radio-group v-model="form.publishStatus">
-            <el-radio label="1">请选择字典生成</el-radio>
+            <el-radio
+              v-for="dict in publishStatusOptions"
+              :key="dict.dictValue"
+              :label="dict.dictValue"
+            >{{dict.dictLabel}}</el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="审核状态：0未审核，1已审核">
+        <el-form-item label="审核：" prop="auditStatus">
           <el-radio-group v-model="form.auditStatus">
-            <el-radio label="1">请选择字典生成</el-radio>
+            <el-radio
+              v-for="dict in auditStatusOptions"
+              :key="dict.dictValue"
+              :label="dict.dictValue"
+            >{{dict.dictLabel}}</el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="商品重量" prop="weight">
-          <el-input v-model="form.weight" placeholder="请输入商品重量" />
+        <el-form-item label="重量" prop="weight">
+          <el-input type="number" step = "0.1" v-model="form.weight" placeholder="请输入商品重量" />
         </el-form-item>
-        <el-form-item label="商品长度" prop="length">
-          <el-input v-model="form.length" placeholder="请输入商品长度" />
+        <el-form-item label="长度" prop="length">
+          <el-input type="number" step = "0.1" v-model="form.length" placeholder="请输入商品长度" />
         </el-form-item>
-        <el-form-item label="商品高度" prop="height">
-          <el-input v-model="form.height" placeholder="请输入商品高度" />
+        <el-form-item label="高度" prop="height">
+          <el-input type="number" step = "0.1" v-model="form.height" placeholder="请输入商品高度" />
         </el-form-item>
-        <el-form-item label="商品宽度" prop="width">
-          <el-input v-model="form.width" placeholder="请输入商品宽度" />
+        <el-form-item label="宽度" prop="width">
+          <el-input type="number" step = "0.1" v-model="form.width" placeholder="请输入商品宽度" />
         </el-form-item>
         <el-form-item label="产品型号" prop="productModels">
           <el-input v-model="form.productModels" placeholder="请输入产品型号" />
         </el-form-item>
-        <el-form-item label="商品默认出厂成本" prop="defaultCost">
-          <el-input v-model="form.defaultCost" placeholder="请输入商品默认出厂成本" />
+        <el-form-item label="进价" prop="defaultCost">
+          <el-input type="number" v-model="form.defaultCost" placeholder="请输入商品默认出厂成本" />
         </el-form-item>
-        <el-form-item label="商品有效期" prop="shelfLife">
+        <el-form-item label="有效期" prop="shelfLife">
           <el-input v-model="form.shelfLife" placeholder="请输入商品有效期" />
         </el-form-item>
-        <el-form-item label="商品描述" prop="descript">
+        <el-form-item label="描述" prop="descript">
           <el-input v-model="form.descript" type="textarea" placeholder="请输入内容" />
         </el-form-item>
-        <el-form-item label="商品提醒" prop="remind">
+        <el-form-item label="提醒" prop="remind">
           <el-input v-model="form.remind" placeholder="请输入商品提醒" />
         </el-form-item>
-        <el-form-item label="拥有多型号：0否1是" prop="manyModels">
-          <el-input v-model="form.manyModels" placeholder="请输入拥有多型号：0否1是" />
+        <el-form-item label="拥有多型号：" prop="manyModels">
+          <el-radio-group v-model="form.manyModels">
+            <el-radio
+              v-for="dict in manyModelsOptions"
+              :key="dict.dictValue"
+              :label="dict.dictValue"
+            >{{dict.dictLabel}}</el-radio>
+          </el-radio-group>
         </el-form-item>
-        <el-form-item label="商品录入时间" prop="indate">
-          <el-date-picker clearable size="small"
-            v-model="form.indate"
-            type="date"
-            value-format="yyyy-MM-dd"
-            placeholder="选择商品录入时间">
-          </el-date-picker>
-        </el-form-item>
+
         <el-form-item label="备注" prop="remark">
           <el-input v-model="form.remark" type="textarea" placeholder="请输入内容" />
         </el-form-item>
-        <el-form-item label="备注2" prop="remark2">
-          <el-input v-model="form.remark2" type="textarea" placeholder="请输入内容" />
-        </el-form-item>
-        <el-form-item label="备注3" prop="remark3">
-          <el-input v-model="form.remark3" type="textarea" placeholder="请输入内容" />
-        </el-form-item>
+<!--        <el-form-item label="备注2" prop="remark2">-->
+<!--          <el-input v-model="form.remark2" type="textarea" placeholder="请输入内容" />-->
+<!--        </el-form-item>-->
+<!--        <el-form-item label="备注3" prop="remark3">-->
+<!--          <el-input v-model="form.remark3" type="textarea" placeholder="请输入内容" />-->
+<!--        </el-form-item>-->
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitForm">确 定</el-button>
@@ -404,6 +381,12 @@ export default {
       title: "",
       // 是否显示弹出层
       open: false,
+      //上架状态数据字典
+      publishStatusOptions:[],
+      //审核状态字典
+      auditStatusOptions:[],
+      //是否多型号
+      manyModelsOptions:[],
       // 查询参数
       queryParams: {
         pageNum: 1,
@@ -442,18 +425,18 @@ export default {
         productName: [
           { required: true, message: "商品名称不能为空", trigger: "blur" }
         ],
-        barCode: [
-          { required: true, message: "国条码不能为空", trigger: "blur" }
-        ],
+        // barCode: [
+        //   { required: true, message: "国条码不能为空", trigger: "blur" }
+        // ],
         oneCategoryId: [
           { required: true, message: "一级分类ID不能为空", trigger: "blur" }
         ],
-        twoCategoryId: [
-          { required: true, message: "二级分类ID不能为空", trigger: "blur" }
-        ],
-        threeCategoryId: [
-          { required: true, message: "三级分类ID不能为空", trigger: "blur" }
-        ],
+        // twoCategoryId: [
+        //   { required: true, message: "二级分类ID不能为空", trigger: "blur" }
+        // ],
+        // threeCategoryId: [
+        //   { required: true, message: "三级分类ID不能为空", trigger: "blur" }
+        // ],
         supplierId: [
           { required: true, message: "商品的供应商ID不能为空", trigger: "blur" }
         ],
@@ -470,37 +453,47 @@ export default {
           { required: true, message: "产品型号不能为空", trigger: "blur" }
         ],
         defaultCost: [
-          { required: true, message: "商品默认出厂成本不能为空", trigger: "blur" }
+          { required: true, message: "商品进货价不能为空", trigger: "blur" }
         ],
         shelfLife: [
-          { required: true, message: "商品有效期不能为空", trigger: "blur" }
+          { required: false, message: "商品有效期不能为空", trigger: "blur" }
         ],
         descript: [
-          { required: true, message: "商品描述不能为空", trigger: "blur" }
+          { required: false, message: "商品描述不能为空", trigger: "blur" }
         ],
         remind: [
-          { required: true, message: "商品提醒不能为空", trigger: "blur" }
+          { required: false, message: "商品提醒不能为空", trigger: "blur" }
         ],
         manyModels: [
           { required: true, message: "拥有多型号：0否1是不能为空", trigger: "blur" }
         ],
-        indate: [
-          { required: true, message: "商品录入时间不能为空", trigger: "blur" }
-        ],
-        remark: [
-          { required: true, message: "备注不能为空", trigger: "blur" }
-        ],
-        remark2: [
-          { required: true, message: "备注2不能为空", trigger: "blur" }
-        ],
-        remark3: [
-          { required: true, message: "备注3不能为空", trigger: "blur" }
-        ]
+        // indate: [
+        //   { required: true, message: "商品录入时间不能为空", trigger: "blur" }
+        // ],
+        // remark: [
+        //   { required: true, message: "备注不能为空", trigger: "blur" }
+        // ],
+        // remark2: [
+        //   { required: true, message: "备注2不能为空", trigger: "blur" }
+        // ],
+        // remark3: [
+        //   { required: true, message: "备注3不能为空", trigger: "blur" }
+        // ]
       }
     };
   },
   created() {
     this.getList();
+
+    this.getDicts("biz_product_model").then(response => {
+      this.manyModelsOptions = response.data;
+    });
+    this.getDicts("biz_product_audit").then(response => {
+      this.auditStatusOptions = response.data;
+    });
+    this.getDicts("biz_product_publish").then(response => {
+      this.publishStatusOptions = response.data;
+    });
   },
   methods: {
     /** 查询商品信息列表 */

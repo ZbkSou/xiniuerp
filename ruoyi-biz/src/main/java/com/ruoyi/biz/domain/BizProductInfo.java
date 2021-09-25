@@ -63,19 +63,19 @@ public class BizProductInfo extends BaseEntity
 
     /** 商品重量 */
     @Excel(name = "商品重量")
-    private Long weight;
+    private Double weight;
 
     /** 商品长度 */
     @Excel(name = "商品长度")
-    private Long length;
+    private Double length;
 
     /** 商品高度 */
     @Excel(name = "商品高度")
-    private Long height;
+    private Double height;
 
     /** 商品宽度 */
     @Excel(name = "商品宽度")
-    private Long width;
+    private Double width;
 
     /** 产品型号 */
     @Excel(name = "产品型号")
@@ -213,39 +213,39 @@ public class BizProductInfo extends BaseEntity
     {
         return auditStatus;
     }
-    public void setWeight(Long weight) 
+    public void setWeight(Double weight)
     {
         this.weight = weight;
     }
 
-    public Long getWeight() 
+    public Double getWeight()
     {
         return weight;
     }
-    public void setLength(Long length) 
+    public void setLength(Double length)
     {
         this.length = length;
     }
 
-    public Long getLength() 
+    public Double getLength()
     {
         return length;
     }
-    public void setHeight(Long height) 
+    public void setHeight(Double height)
     {
         this.height = height;
     }
 
-    public Long getHeight() 
+    public Double getHeight()
     {
         return height;
     }
-    public void setWidth(Long width) 
+    public void setWidth(Double width)
     {
         this.width = width;
     }
 
-    public Long getWidth() 
+    public Double getWidth()
     {
         return width;
     }
