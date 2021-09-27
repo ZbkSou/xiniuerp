@@ -16,10 +16,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="updateBy"    column="update_by"    />
         <result property="updateTime"    column="update_time"    />
         <result property="remark"    column="remark"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="supplierId"    column="supplier_id"    />
+        <result property="pay"    column="pay"    />
     </resultMap>
 
     <sql id="selectBizPurchasingVo">
-        select id, total_goods_pice, extra_package_cost, delivery_cost, w_id, purchasing_time, pay_time, enter_time, update_by, update_time, remark from biz_purchasing
+        select id, total_goods_pice, extra_package_cost, delivery_cost, w_id, purchasing_time, pay_time, enter_time, update_by, update_time, remark,supplier_id,pay from biz_purchasing
     </sql>
 
     <select id="selectBizPurchasingList" parameterType="BizPurchasing" resultMap="BizPurchasingResult">
@@ -32,6 +36,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="purchasingTime != null "> and purchasing_time = #{purchasingTime}</if>
             <if test="payTime != null "> and pay_time = #{payTime}</if>
             <if test="enterTime != null "> and enter_time = #{enterTime}</if>
+            <if test="supplierId != null "> and supplier_id = #{supplierId}</if>
+            <if test="pay != null "> and pay = #{pay}</if>
         </where>
     </select>
     
@@ -53,6 +59,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateBy != null">update_by,</if>
             <if test="updateTime != null">update_time,</if>
             <if test="remark != null">remark,</if>
+            <if test="supplierId != null">supplier_id,</if>
+            <if test="pay != null">pay,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="totalGoodsPice != null">#{totalGoodsPice},</if>
@@ -65,6 +73,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateBy != null">#{updateBy},</if>
             <if test="updateTime != null">#{updateTime},</if>
             <if test="remark != null">#{remark},</if>
+            <if test="supplierId != null">#{supplierId},</if>
+            <if test="pay != null">#{pay},</if>
          </trim>
     </insert>
 
@@ -81,6 +91,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateBy != null">update_by = #{updateBy},</if>
             <if test="updateTime != null">update_time = #{updateTime},</if>
             <if test="remark != null">remark = #{remark},</if>
+            <if test="supplierId != null">supplier_id = #{supplierId},</if>
+            <if test="pay != null">pay =  #{pay},</if>
         </trim>
         where id = #{id}
     </update>

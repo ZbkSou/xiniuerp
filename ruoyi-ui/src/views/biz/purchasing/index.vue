@@ -39,26 +39,26 @@
       </el-form-item>
       <el-form-item label="进货时间" prop="purchasingTime">
         <el-date-picker clearable size="small"
-          v-model="queryParams.purchasingTime"
-          type="date"
-          value-format="yyyy-MM-dd"
-          placeholder="选择进货时间">
+                        v-model="queryParams.purchasingTime"
+                        type="date"
+                        value-format="yyyy-MM-dd"
+                        placeholder="选择进货时间">
         </el-date-picker>
       </el-form-item>
       <el-form-item label="结算时间" prop="payTime">
         <el-date-picker clearable size="small"
-          v-model="queryParams.payTime"
-          type="date"
-          value-format="yyyy-MM-dd"
-          placeholder="选择结算时间">
+                        v-model="queryParams.payTime"
+                        type="date"
+                        value-format="yyyy-MM-dd"
+                        placeholder="选择结算时间">
         </el-date-picker>
       </el-form-item>
       <el-form-item label="进仓时间" prop="enterTime">
         <el-date-picker clearable size="small"
-          v-model="queryParams.enterTime"
-          type="date"
-          value-format="yyyy-MM-dd"
-          placeholder="选择进仓时间">
+                        v-model="queryParams.enterTime"
+                        type="date"
+                        value-format="yyyy-MM-dd"
+                        placeholder="选择进仓时间">
         </el-date-picker>
       </el-form-item>
       <el-form-item>
@@ -76,7 +76,8 @@
           size="mini"
           @click="handleAdd"
           v-hasPermi="['biz:purchasing:add']"
-        >新增</el-button>
+        >新增
+        </el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
@@ -87,7 +88,8 @@
           :disabled="single"
           @click="handleUpdate"
           v-hasPermi="['biz:purchasing:edit']"
-        >修改</el-button>
+        >修改
+        </el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
@@ -98,7 +100,8 @@
           :disabled="multiple"
           @click="handleDelete"
           v-hasPermi="['biz:purchasing:remove']"
-        >删除</el-button>
+        >删除
+        </el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
@@ -109,18 +112,19 @@
           :loading="exportLoading"
           @click="handleExport"
           v-hasPermi="['biz:purchasing:export']"
-        >导出</el-button>
+        >导出
+        </el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
     <el-table v-loading="loading" :data="purchasingList" @selection-change="handleSelectionChange">
-      <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="进货表ID" align="center" prop="id" />
-      <el-table-column label="货物总价" align="center" prop="totalGoodsPice" />
-      <el-table-column label="额外包装成本" align="center" prop="extraPackageCost" />
-      <el-table-column label="运输成本" align="center" prop="deliveryCost" />
-      <el-table-column label="仓库ID" align="center" prop="wId" />
+      <el-table-column type="selection" width="55" align="center"/>
+      <el-table-column label="进货表ID" align="center" prop="id"/>
+      <el-table-column label="货物总价" align="center" prop="totalGoodsPice"/>
+      <el-table-column label="额外包装成本" align="center" prop="extraPackageCost"/>
+      <el-table-column label="运输成本" align="center" prop="deliveryCost"/>
+      <el-table-column label="仓库ID" align="center" prop="wId"/>
       <el-table-column label="进货时间" align="center" prop="purchasingTime" width="180">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.purchasingTime, '{y}-{m}-{d}') }}</span>
@@ -136,7 +140,7 @@
           <span>{{ parseTime(scope.row.enterTime, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="备注" align="center" prop="remark" />
+      <el-table-column label="备注" align="center" prop="remark"/>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -145,18 +149,20 @@
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
             v-hasPermi="['biz:purchasing:edit']"
-          >修改</el-button>
+          >修改
+          </el-button>
           <el-button
             size="mini"
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
             v-hasPermi="['biz:purchasing:remove']"
-          >删除</el-button>
+          >删除
+          </el-button>
         </template>
       </el-table-column>
     </el-table>
-    
+
     <pagination
       v-show="total>0"
       :total="total"
@@ -166,48 +172,94 @@
     />
 
     <!-- 添加或修改进货对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+    <el-dialog :title="title" :visible.sync="open" width="1600px" append-to-body>
+      <el-form ref="form" :model="form" :rules="rules" :inline="true" label-width="100px">
         <el-form-item label="货物总价" prop="totalGoodsPice">
-          <el-input v-model="form.totalGoodsPice" placeholder="请输入货物总价" />
-        </el-form-item>
-        <el-form-item label="额外包装成本" prop="extraPackageCost">
-          <el-input v-model="form.extraPackageCost" placeholder="请输入额外包装成本" />
-        </el-form-item>
-        <el-form-item label="运输成本" prop="deliveryCost">
-          <el-input v-model="form.deliveryCost" placeholder="请输入运输成本" />
+          <el-input v-model="form.totalGoodsPice" placeholder="请输入货物总价" clearable size="small"/>
         </el-form-item>
         <el-form-item label="仓库ID" prop="wId">
-          <el-input v-model="form.wId" placeholder="请输入仓库ID" />
+          <el-input v-model="form.wId" placeholder="请输入仓库ID" clearable size="small"/>
         </el-form-item>
+        <el-form-item label="额外包装成本" prop="extraPackageCost">
+          <el-input v-model="form.extraPackageCost" placeholder="请输入额外包装成本" clearable size="small"/>
+        </el-form-item>
+        <el-form-item label="运输成本" prop="deliveryCost">
+          <el-input v-model="form.deliveryCost" placeholder="请输入运输成本" clearable size="small"/>
+        </el-form-item>
+
         <el-form-item label="进货时间" prop="purchasingTime">
           <el-date-picker clearable size="small"
-            v-model="form.purchasingTime"
-            type="date"
-            value-format="yyyy-MM-dd"
-            placeholder="选择进货时间">
+                          v-model="form.purchasingTime"
+                          type="date"
+                          value-format="yyyy-MM-dd"
+                          placeholder="选择进货时间">
           </el-date-picker>
         </el-form-item>
         <el-form-item label="结算时间" prop="payTime">
           <el-date-picker clearable size="small"
-            v-model="form.payTime"
-            type="date"
-            value-format="yyyy-MM-dd"
-            placeholder="选择结算时间">
+                          v-model="form.payTime"
+                          type="date"
+                          value-format="yyyy-MM-dd"
+                          placeholder="选择结算时间">
           </el-date-picker>
         </el-form-item>
         <el-form-item label="进仓时间" prop="enterTime">
           <el-date-picker clearable size="small"
-            v-model="form.enterTime"
-            type="date"
-            value-format="yyyy-MM-dd"
-            placeholder="选择进仓时间">
+                          v-model="form.enterTime"
+                          type="date"
+                          value-format="yyyy-MM-dd"
+                          placeholder="选择进仓时间">
           </el-date-picker>
         </el-form-item>
         <el-form-item label="备注" prop="remark">
-          <el-input v-model="form.remark" placeholder="请输入备注" />
+          <el-input v-model="form.remark" placeholder="请输入备注"/>
         </el-form-item>
+
+        <!--   进货详情-->
+        <el-form-item label="进货详情" style="margin-bottom:0px;">
+          <template>
+            <el-button @click="addDetail" type="primary">+ 添加</el-button>
+            <div v-for="(item,index) in form.detailList" class="performanceNameList">
+              <div class="item-piece">
+                <div ref="items" style="display: flex;flex-direction:row;">
+                  <el-form-item label="供应商编码" prop="supplierCode" >
+                    <el-input v-model="item.supplierCode" placeholder="请输入供应商编码" size="small"/>
+                  </el-form-item>
+                  <el-form-item label="商品编码" prop="productCode">
+                    <el-input v-model="item.productCode" placeholder="请输入商品编码" size="small"/>
+                  </el-form-item>
+                  <el-form-item label="名称" prop="productName">
+                    <el-input v-model="item.productName" placeholder="请输入商品名称"size="small"/>
+                  </el-form-item>
+                  <el-form-item label="型号id" prop="productModelsId">
+                    <el-input v-model="item.productModelsId" placeholder="请输入商品型号id"size="small"/>
+                  </el-form-item>
+                  <el-form-item label="数量" prop="count">
+                    <el-input v-model="item.count" placeholder="请输入数量"size="small"/>
+                  </el-form-item>
+                  <el-form-item label="单价" prop="pice">
+                    <el-input v-model="item.pice" placeholder="请输入单价"size="small"/>
+                  </el-form-item>
+                  <el-form-item label="供应商ID" prop="supplierId">
+                    <el-input v-model="item.supplierId" placeholder="请输入供应商ID"size="small"/>
+                  </el-form-item>
+                  <el-form-item label="仓库ID" prop="wId">
+                    <el-input v-model="item.wId" placeholder="请输入仓库ID"size="small"/>
+                  </el-form-item>
+                  <el-form-item label="备注" prop="remark">
+                    <el-input v-model="item.remark" placeholder="请输入备注"size="small"/>
+                  </el-form-item>
+                </div>
+                <el-button @click="deleteDetail(index)">删除</el-button>
+              </div>
+            </div>
+          </template>
+        </el-form-item>
+
+
       </el-form>
+
+
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitForm">确 定</el-button>
         <el-button @click="cancel">取 消</el-button>
@@ -217,7 +269,14 @@
 </template>
 
 <script>
-import { listPurchasing, getPurchasing, delPurchasing, addPurchasing, updatePurchasing, exportPurchasing } from "@/api/biz/purchasing";
+import {
+  listPurchasing,
+  getPurchasing,
+  delPurchasing,
+  addPurchasing,
+  updatePurchasing,
+  exportPurchasing
+} from "@/api/biz/purchasing";
 
 export default {
   name: "Purchasing",
@@ -256,20 +315,22 @@ export default {
         enterTime: null,
       },
       // 表单参数
-      form: {},
+      form: {
+        detailList: []
+      },
       // 表单校验
       rules: {
         totalGoodsPice: [
-          { required: true, message: "货物总价不能为空", trigger: "blur" }
+          {required: true, message: "货物总价不能为空", trigger: "blur"}
         ],
         extraPackageCost: [
-          { required: true, message: "额外包装成本不能为空", trigger: "blur" }
+          {required: false, message: "额外包装成本不能为空", trigger: "blur"}
         ],
         deliveryCost: [
-          { required: true, message: "运输成本不能为空", trigger: "blur" }
+          {required: false, message: "运输成本不能为空", trigger: "blur"}
         ],
         wId: [
-          { required: true, message: "仓库ID不能为空", trigger: "blur" }
+          {required: true, message: "仓库ID不能为空", trigger: "blur"}
         ],
       }
     };
@@ -305,7 +366,8 @@ export default {
         enterTime: null,
         updateBy: null,
         updateTime: null,
-        remark: null
+        remark: null,
+        detailList: []
       };
       this.resetForm("form");
     },
@@ -322,7 +384,7 @@ export default {
     // 多选框选中数据
     handleSelectionChange(selection) {
       this.ids = selection.map(item => item.id)
-      this.single = selection.length!==1
+      this.single = selection.length !== 1
       this.multiple = !selection.length
     },
     /** 新增按钮操作 */
@@ -365,31 +427,43 @@ export default {
     handleDelete(row) {
       const ids = row.id || this.ids;
       this.$confirm('是否确认删除进货编号为"' + ids + '"的数据项?', "警告", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning"
-        }).then(function() {
-          return delPurchasing(ids);
-        }).then(() => {
-          this.getList();
-          this.msgSuccess("删除成功");
-        }).catch(() => {});
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      }).then(function () {
+        return delPurchasing(ids);
+      }).then(() => {
+        this.getList();
+        this.msgSuccess("删除成功");
+      }).catch(() => {
+      });
     },
     /** 导出按钮操作 */
     handleExport() {
       const queryParams = this.queryParams;
       this.$confirm('是否确认导出所有进货数据项?', "警告", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning"
-        }).then(() => {
-          this.exportLoading = true;
-          return exportPurchasing(queryParams);
-        }).then(response => {
-          this.download(response.msg);
-          this.exportLoading = false;
-        }).catch(() => {});
-    }
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      }).then(() => {
+        this.exportLoading = true;
+        return exportPurchasing(queryParams);
+      }).then(response => {
+        this.download(response.msg);
+        this.exportLoading = false;
+      }).catch(() => {
+      });
+    },
+
+    //添加进货详情
+    addDetail() {
+      var jsn={}
+      this.form.detailList.push(jsn)
+    },
+//删除进货详情
+    deleteDetail(index) {
+      this.form.detailList.splice(index, 1);
+    },
   }
 };
 </script>

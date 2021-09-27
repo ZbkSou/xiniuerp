@@ -1,6 +1,8 @@
 package com.ruoyi.biz.domain;
 
 import java.util.Date;
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -9,135 +11,182 @@ import com.ruoyi.common.core.domain.BaseEntity;
 
 /**
  * 进货对象 biz_purchasing
- * 
+ *
  * @author xiniu
  * @date 2021-09-12
  */
-public class BizPurchasing extends BaseEntity
-{
+public class BizPurchasing extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
-    /** 进货表ID */
+    /**
+     * 进货表ID
+     */
     private Integer id;
 
-    /** 货物总价 */
+    /**
+     * 货物总价
+     */
     @Excel(name = "货物总价")
     private Long totalGoodsPice;
 
-    /** 额外包装成本 */
+    /**
+     * 额外包装成本
+     */
     @Excel(name = "额外包装成本")
     private Long extraPackageCost;
 
-    /** 运输成本 */
+    /**
+     * 运输成本
+     */
     @Excel(name = "运输成本")
     private Long deliveryCost;
 
-    /** 仓库ID */
+    /**
+     * 仓库ID
+     */
     @Excel(name = "仓库ID")
     private Integer wId;
 
-    /** 进货时间 */
+    @Excel(name = "详情")
+    private List<BizPurchasingDetail> detailList;
+
+    /**
+     * 进货时间
+     */
     @JsonFormat(pattern = "yyyy-MM-dd")
     @Excel(name = "进货时间", width = 30, dateFormat = "yyyy-MM-dd")
     private Date purchasingTime;
 
-    /** 结算时间 */
+    /**
+     * 结算时间
+     */
     @JsonFormat(pattern = "yyyy-MM-dd")
     @Excel(name = "结算时间", width = 30, dateFormat = "yyyy-MM-dd")
     private Date payTime;
 
-    /** 进仓时间 */
+    /**
+     * 进仓时间
+     */
     @JsonFormat(pattern = "yyyy-MM-dd")
     @Excel(name = "进仓时间", width = 30, dateFormat = "yyyy-MM-dd")
     private Date enterTime;
+    /**
+     * 供货商ID
+     */
+    @Excel(name = "供货商ID")
+    private Integer supplierId;
+    /**
+     * 支付
+     */
+    @Excel(name = "是否支付:0否1是")
+    private Integer pay;
 
-    public void setId(Integer id) 
-    {
+
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public Integer getId() 
-    {
+    public Integer getId() {
         return id;
     }
-    public void setTotalGoodsPice(Long totalGoodsPice) 
-    {
+
+    public void setTotalGoodsPice(Long totalGoodsPice) {
         this.totalGoodsPice = totalGoodsPice;
     }
 
-    public Long getTotalGoodsPice() 
-    {
+    public Long getTotalGoodsPice() {
         return totalGoodsPice;
     }
-    public void setExtraPackageCost(Long extraPackageCost) 
-    {
+
+    public void setExtraPackageCost(Long extraPackageCost) {
         this.extraPackageCost = extraPackageCost;
     }
 
-    public Long getExtraPackageCost() 
-    {
+    public Long getExtraPackageCost() {
         return extraPackageCost;
     }
-    public void setDeliveryCost(Long deliveryCost) 
-    {
+
+    public void setDeliveryCost(Long deliveryCost) {
         this.deliveryCost = deliveryCost;
     }
 
-    public Long getDeliveryCost() 
-    {
+    public Long getDeliveryCost() {
         return deliveryCost;
     }
-    public void setwId(Integer wId) 
-    {
+
+    public void setwId(Integer wId) {
         this.wId = wId;
     }
 
-    public Integer getwId() 
-    {
+    public Integer getwId() {
         return wId;
     }
-    public void setPurchasingTime(Date purchasingTime) 
-    {
+
+
+    public void setPurchasingTime(Date purchasingTime) {
         this.purchasingTime = purchasingTime;
     }
 
-    public Date getPurchasingTime() 
-    {
+    public Date getPurchasingTime() {
         return purchasingTime;
     }
-    public void setPayTime(Date payTime) 
-    {
+
+    public void setPayTime(Date payTime) {
         this.payTime = payTime;
     }
 
-    public Date getPayTime() 
-    {
+    public Date getPayTime() {
         return payTime;
     }
-    public void setEnterTime(Date enterTime) 
-    {
+
+    public void setEnterTime(Date enterTime) {
         this.enterTime = enterTime;
     }
 
-    public Date getEnterTime() 
-    {
+    public Date getEnterTime() {
         return enterTime;
     }
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("id", getId())
-            .append("totalGoodsPice", getTotalGoodsPice())
-            .append("extraPackageCost", getExtraPackageCost())
-            .append("deliveryCost", getDeliveryCost())
-            .append("wId", getwId())
-            .append("purchasingTime", getPurchasingTime())
-            .append("payTime", getPayTime())
-            .append("enterTime", getEnterTime())
-            .append("updateBy", getUpdateBy())
-            .append("updateTime", getUpdateTime())
-            .append("remark", getRemark())
-            .toString();
+        return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
+                .append("id", getId())
+                .append("totalGoodsPice", getTotalGoodsPice())
+                .append("extraPackageCost", getExtraPackageCost())
+                .append("deliveryCost", getDeliveryCost())
+                .append("wId", getwId())
+                .append("purchasingTime", getPurchasingTime())
+                .append("payTime", getPayTime())
+                .append("enterTime", getEnterTime())
+                .append("updateBy", getUpdateBy())
+                .append("updateTime", getUpdateTime())
+                .append("remark", getRemark())
+                .append("supplierId", getSupplierId())
+                .append("pay", getPay())
+                .toString();
+    }
+
+    public List<BizPurchasingDetail> getDetailList() {
+        return detailList;
+    }
+
+    public void setDetailList(List<BizPurchasingDetail> detailList) {
+        this.detailList = detailList;
+    }
+
+    public Integer getSupplierId() {
+        return supplierId;
+    }
+
+    public void setSupplierId(Integer supplier_id) {
+        this.supplierId = supplier_id;
+    }
+
+    public Integer getPay() {
+        return pay;
+    }
+
+    public void setPay(Integer pay) {
+        this.pay = pay;
     }
 }
