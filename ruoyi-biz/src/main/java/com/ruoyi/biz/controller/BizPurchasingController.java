@@ -129,6 +129,17 @@ public class BizPurchasingController extends BaseController {
     @Log(title = "进货", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody BizPurchasing bizPurchasing) {
+//        计算总价
+        int totalPic = 0;
+        for (BizPurchasingDetail detail: bizPurchasing.getDetailList()) {
+            totalPic +=detail.getCount()*detail.getPice();
+        }
+        bizPurchasing.setTotalGoodsPice((long) totalPic);
+//        更新详情
+        for (BizPurchasingDetail detail : bizPurchasing.getDetailList()) {
+            bizPurchasingDetailService.updateBizPurchasingDetail(detail);
+        }
+//        更新进货单
         return toAjax(bizPurchasingService.updateBizPurchasing(bizPurchasing));
     }
 

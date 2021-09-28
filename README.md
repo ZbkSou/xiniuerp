@@ -24,3 +24,12 @@
 
 获取当前用户
 getUsername()
+
+vue 前端
+created() 获取字典信息
+
+```
+this.getDicts("biz_product_model").then(response => {
+      this.manyModelsOptions = response.data;
+    });
+```

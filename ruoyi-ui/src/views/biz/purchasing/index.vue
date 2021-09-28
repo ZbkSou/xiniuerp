@@ -37,6 +37,16 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
+      <el-form-item label="支付" prop="pay">
+        <el-select v-model="queryParams.pay" placeholder="请选择支付状态：" clearable size="small">
+          <el-option
+            v-for="dict in payOptions"
+            :key="dict.dictValue"
+            :label="dict.dictLabel"
+            :value="dict.dictValue"
+          />
+        </el-select>
+      </el-form-item>
       <el-form-item label="进货时间" prop="purchasingTime">
         <el-date-picker clearable size="small"
                         v-model="queryParams.purchasingTime"
@@ -125,6 +135,11 @@
       <el-table-column label="额外包装成本" align="center" prop="extraPackageCost"/>
       <el-table-column label="运输成本" align="center" prop="deliveryCost"/>
       <el-table-column label="仓库ID" align="center" prop="wId"/>
+      <el-table-column label="支付" align="center" prop="pay">
+        <template slot-scope="scope">
+          <dict-tag :options="payOptions" :value="scope.row.pay"/>
+        </template>
+      </el-table-column>
       <el-table-column label="进货时间" align="center" prop="purchasingTime" width="180">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.purchasingTime, '{y}-{m}-{d}') }}</span>
@@ -140,6 +155,7 @@
           <span>{{ parseTime(scope.row.enterTime, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
+
       <el-table-column label="备注" align="center" prop="remark"/>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
@@ -195,14 +211,14 @@
                           placeholder="选择进货时间">
           </el-date-picker>
         </el-form-item>
-        <el-form-item label="结算时间" prop="payTime">
-          <el-date-picker clearable size="small"
-                          v-model="form.payTime"
-                          type="date"
-                          value-format="yyyy-MM-dd"
-                          placeholder="选择结算时间">
-          </el-date-picker>
-        </el-form-item>
+<!--        <el-form-item label="结算时间" prop="payTime">-->
+<!--          <el-date-picker clearable size="small"-->
+<!--                          v-model="form.payTime"-->
+<!--                          type="date"-->
+<!--                          value-format="yyyy-MM-dd"-->
+<!--                          placeholder="选择结算时间">-->
+<!--          </el-date-picker>-->
+<!--        </el-form-item>-->
         <el-form-item label="进仓时间" prop="enterTime">
           <el-date-picker clearable size="small"
                           v-model="form.enterTime"
@@ -213,6 +229,15 @@
         </el-form-item>
         <el-form-item label="备注" prop="remark">
           <el-input v-model="form.remark" placeholder="请输入备注"/>
+        </el-form-item>
+        <el-form-item label="支付：" prop="pay">
+          <el-radio-group v-model="form.pay">
+            <el-radio
+              v-for="dict in payOptions"
+              :key="dict.dictValue"
+              :label="dict.dictValue"
+            >{{dict.dictLabel}}</el-radio>
+          </el-radio-group>
         </el-form-item>
 
         <!--   进货详情-->
@@ -302,6 +327,8 @@ export default {
       title: "",
       // 是否显示弹出层
       open: false,
+      //是否支付
+      payOptions:[],
       // 查询参数
       queryParams: {
         pageNum: 1,
@@ -337,6 +364,10 @@ export default {
   },
   created() {
     this.getList();
+    this.getDicts("biz_purchasing_pay").then(response => {
+      this.payOptions = response.data;
+    });
+
   },
   methods: {
     /** 查询进货列表 */

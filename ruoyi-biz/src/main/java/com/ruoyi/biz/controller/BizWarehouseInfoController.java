@@ -1,5 +1,6 @@
 package com.ruoyi.biz.controller;
 
+import java.util.Date;
 import java.util.List;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,6 +77,8 @@ public class BizWarehouseInfoController extends BaseController
     @PostMapping
     public AjaxResult add(@RequestBody BizWarehouseInfo bizWarehouseInfo)
     {
+        bizWarehouseInfo.setUpdateTime(new Date());
+        bizWarehouseInfo.setUpdateBy(getUsername());
         return toAjax(bizWarehouseInfoService.insertBizWarehouseInfo(bizWarehouseInfo));
     }
 

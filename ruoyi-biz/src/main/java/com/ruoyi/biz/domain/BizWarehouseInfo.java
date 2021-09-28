@@ -38,15 +38,15 @@ public class BizWarehouseInfo extends BaseEntity
 
     /** 省 */
     @Excel(name = "省")
-    private Integer province;
+    private String province;
 
     /** 市 */
     @Excel(name = "市")
-    private Integer city;
+    private String city;
 
     /** 区 */
     @Excel(name = "区")
-    private Integer distrct;
+    private String distrct;
 
     /** 仓库地址 */
     @Excel(name = "仓库地址")
@@ -106,30 +106,30 @@ public class BizWarehouseInfo extends BaseEntity
     {
         return contact;
     }
-    public void setProvince(Integer province) 
+    public void setProvince(String province)
     {
         this.province = province;
     }
 
-    public Integer getProvince() 
+    public String getProvince()
     {
         return province;
     }
-    public void setCity(Integer city) 
+    public void setCity(String city)
     {
         this.city = city;
     }
 
-    public Integer getCity() 
+    public String getCity()
     {
         return city;
     }
-    public void setDistrct(Integer distrct) 
+    public void setDistrct(String distrct)
     {
         this.distrct = distrct;
     }
 
-    public Integer getDistrct() 
+    public String getDistrct()
     {
         return distrct;
     }
