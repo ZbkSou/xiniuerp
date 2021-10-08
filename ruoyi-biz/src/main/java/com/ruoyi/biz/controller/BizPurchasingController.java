@@ -73,7 +73,12 @@ public class BizPurchasingController extends BaseController {
     @PreAuthorize("@ss.hasPermi('biz:purchasing:query')")
     @GetMapping(value = "/{id}")
     public AjaxResult getInfo(@PathVariable("id") Integer id) {
-        return AjaxResult.success(bizPurchasingService.selectBizPurchasingById(id));
+        BizPurchasing  bizPurchasing = bizPurchasingService.selectBizPurchasingById(id);
+        BizPurchasingDetail detail =new BizPurchasingDetail();
+        detail.setPurchasingId(id);
+        List<BizPurchasingDetail> detailList =   bizPurchasingDetailService.selectBizPurchasingDetailList(detail);
+        bizPurchasing.setDetailList(detailList);
+        return AjaxResult.success(bizPurchasing);
     }
 
     /**
@@ -115,7 +120,8 @@ public class BizPurchasingController extends BaseController {
                 detail.setCreateTime(new Date());
                 detail.setUpdateBy(getUsername());
                 detail.setUpdateTime(new Date());
-
+                detail.setSupplierId(bizPurchasing.getSupplierId());
+                detail.setwId(wid);
                 bizPurchasingDetailService.insertBizPurchasingDetail(detail);
             }
         }

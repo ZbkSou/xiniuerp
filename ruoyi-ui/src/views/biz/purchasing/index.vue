@@ -190,9 +190,10 @@
     <!-- 添加或修改进货对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="1600px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" :inline="true" label-width="100px">
-<!--        <el-form-item label="货物总价" prop="totalGoodsPice">-->
-<!--          <el-input v-model="form.totalGoodsPice" placeholder="请输入货物总价" clearable size="small"/>-->
-<!--        </el-form-item>-->
+        <el-form-item label="供应商ID" prop="supplierId">
+          <el-input v-model="form.supplierId" placeholder="请输入供货商"  size="small"/>
+        </el-form-item>
+
         <el-form-item label="仓库ID" prop="wId">
           <el-input v-model="form.wId" placeholder="请输入仓库ID" clearable size="small"/>
         </el-form-item>
@@ -247,9 +248,9 @@
             <div v-for="(item,index) in form.detailList" class="performanceNameList">
               <div class="item-piece">
                 <div ref="items" style="display: flex;flex-direction:row;">
-                  <el-form-item label="供应商编码" prop="supplierCode" >
-                    <el-input v-model="item.supplierCode" placeholder="请输入供应商编码" size="small"/>
-                  </el-form-item>
+<!--                  <el-form-item label="供应商编码" prop="supplierCode" >-->
+<!--                    <el-input v-model="item.supplierCode" placeholder="请输入供应商编码" size="small"/>-->
+<!--                  </el-form-item>-->
                   <el-form-item label="商品编码" prop="productCode">
                     <el-input v-model="item.productCode" placeholder="请输入商品编码" size="small"/>
                   </el-form-item>
@@ -265,12 +266,7 @@
                   <el-form-item label="单价" prop="pice">
                     <el-input v-model="item.pice" placeholder="请输入单价"size="small"/>
                   </el-form-item>
-                  <el-form-item label="供应商ID" prop="supplierId">
-                    <el-input v-model="item.supplierId" placeholder="请输入供应商ID"size="small"/>
-                  </el-form-item>
-                  <el-form-item label="仓库ID" prop="wId">
-                    <el-input v-model="item.wId" placeholder="请输入仓库ID"size="small"/>
-                  </el-form-item>
+
                   <el-form-item label="备注" prop="remark">
                     <el-input v-model="item.remark" placeholder="请输入备注"size="small"/>
                   </el-form-item>
@@ -350,8 +346,11 @@ export default {
         totalGoodsPice: [
           {required: false, message: "货物总价不能为空", trigger: "blur"}
         ],
+        supplierId: [
+          {required: true, message: "供货商不能为空", trigger: "blur"}
+        ],
         extraPackageCost: [
-          {required: false, message: "额外包装成本不能为空", trigger: "blur"}
+          {required: false, message: "包装成本不能为空", trigger: "blur"}
         ],
         deliveryCost: [
           {required: false, message: "运输成本不能为空", trigger: "blur"}
