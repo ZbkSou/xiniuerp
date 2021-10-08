@@ -190,9 +190,9 @@
     <!-- 添加或修改进货对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="1600px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" :inline="true" label-width="100px">
-        <el-form-item label="货物总价" prop="totalGoodsPice">
-          <el-input v-model="form.totalGoodsPice" placeholder="请输入货物总价" clearable size="small"/>
-        </el-form-item>
+<!--        <el-form-item label="货物总价" prop="totalGoodsPice">-->
+<!--          <el-input v-model="form.totalGoodsPice" placeholder="请输入货物总价" clearable size="small"/>-->
+<!--        </el-form-item>-->
         <el-form-item label="仓库ID" prop="wId">
           <el-input v-model="form.wId" placeholder="请输入仓库ID" clearable size="small"/>
         </el-form-item>
@@ -348,7 +348,7 @@ export default {
       // 表单校验
       rules: {
         totalGoodsPice: [
-          {required: true, message: "货物总价不能为空", trigger: "blur"}
+          {required: false, message: "货物总价不能为空", trigger: "blur"}
         ],
         extraPackageCost: [
           {required: false, message: "额外包装成本不能为空", trigger: "blur"}
