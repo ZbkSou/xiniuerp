@@ -1,16 +1,14 @@
 package com.ruoyi.biz.controller;
 
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.List;
+import java.util.Map;
+
+import com.csvreader.CsvReader;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
@@ -19,6 +17,7 @@ import com.ruoyi.biz.domain.BizOrderMaster;
 import com.ruoyi.biz.service.IBizOrderMasterService;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.page.TableDataInfo;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 订单主Controller
@@ -78,7 +77,50 @@ public class BizOrderMasterController extends BaseController
     {
         return toAjax(bizOrderMasterService.insertBizOrderMaster(bizOrderMaster));
     }
+    /**
+     * 通过文件新增订单主
+     */
+    @PreAuthorize("@ss.hasPermi('biz:master:add')")
+    @Log(title = "订单主", businessType = BusinessType.INSERT)
+    @PostMapping(value = "/addByXml")
+    public AjaxResult addByXml( MultipartFile file,  String type)
+    {
+        logger.info(type);
+//        拼多多
+        if("1".equals(type)){
+            CsvReader r = null;
+            try {
+                InputStream inputStream = file.getInputStream();
+                InputStreamReader is = new InputStreamReader(inputStream);
+                r = new CsvReader(is);
+                //逐条读取记录，直至读完
+                r.readHeaders();
+                while (r.readRecord()) {
+                    hotel = new Hotel();
+                    hotel.setHotelId(r.get(0));
+                    hotel.setAddress(r.get("Address"));
+                    hotel.setAddressCn(r.get("Address_CN"));
+                    hotel.setAirportCode(r.get("AirportCode"));
+                    hotel.setCityCode(r.get("CityCode"));
+                    hotel.setCityName(r.get("CityName"));
+                    hotels.add(hotel);
+                }
+                r.close();
+                return hotels;
+            } catch (Exception e) {
+                logger.info(e.getMessage());
+                return null;
+            } finally {
+                r.close();
+            }
+        }
+        Boolean bool = ExcelUtil.checkFile(file);
+        if(!bool){
+            return toAjax(false);
+        }
 
+        return toAjax(true);
+    }
     /**
      * 修改订单主
      */

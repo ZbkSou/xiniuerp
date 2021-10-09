@@ -25,6 +25,15 @@ export function addMaster(data) {
     data: data
   })
 }
+// 通过文件新增订单主
+export function addUpMaster(data) {
+  return request({
+    url: '/biz/master/addByXml',
+    method: 'post',
+    data: data
+  })
+}
+
 
 // 修改订单主
 export function updateMaster(data) {

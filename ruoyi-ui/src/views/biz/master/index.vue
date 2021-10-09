@@ -64,14 +64,16 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="支付方式：1现金，2余额，3网银，4支付宝，5微信" prop="paymentMethod">
-        <el-input
-          v-model="queryParams.paymentMethod"
-          placeholder="请输入支付方式：1现金，2余额，3网银，4支付宝，5微信"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
+      <el-form-item label="支付方式" prop="paymentMethod">
+        <el-select v-model="form.paymentMethod" multiple placeholder="请选择">
+          <el-option
+            v-for="item in payOptions"
+            :key="item.dictValue"
+            :label="item.dictLabel"
+            :value="item.dictValue"
+
+          ></el-option>
+        </el-select>
       </el-form-item>
       <el-form-item label="订单金额" prop="orderMoney">
         <el-input
@@ -211,6 +213,16 @@
       </el-col>
       <el-col :span="1.5">
         <el-button
+          type="primary"
+          plain
+          icon="el-icon-plus"
+          size="mini"
+          @click="handleAddFromXml"
+          v-hasPermi="['biz:master:add']"
+        >批量导入</el-button>
+      </el-col>
+      <el-col :span="1.5">
+        <el-button
           type="success"
           plain
           icon="el-icon-edit"
@@ -250,17 +262,21 @@
       <el-table-column label="订单ID" align="center" prop="id" />
       <el-table-column label="订单编号" align="center" prop="orderSn" />
       <el-table-column label="下单人ID" align="center" prop="customerId" />
-      <el-table-column label="收货人姓名" align="center" prop="shippingUser" />
+      <el-table-column label="收货人" align="center" prop="shippingUser" />
       <el-table-column label="省" align="center" prop="province" />
       <el-table-column label="市" align="center" prop="city" />
       <el-table-column label="区" align="center" prop="district" />
       <el-table-column label="地址" align="center" prop="address" />
-      <el-table-column label="支付方式：1现金，2余额，3网银，4支付宝，5微信" align="center" prop="paymentMethod" />
+      <el-table-column label="支付方式" align="center" prop="paymentMethod" >
+        <template slot-scope="scope">
+          <dict-tag :options="payOptions" :value="scope.row.paymentMethod"/>
+        </template>
+      </el-table-column>
       <el-table-column label="订单金额" align="center" prop="orderMoney" />
       <el-table-column label="优惠金额" align="center" prop="districtMoney" />
       <el-table-column label="运费金额" align="center" prop="shippingMoney" />
       <el-table-column label="支付金额" align="center" prop="paymentMoney" />
-      <el-table-column label="快递公司名称" align="center" prop="shippingCompName" />
+      <el-table-column label="快递公司" align="center" prop="shippingCompName" />
       <el-table-column label="快递单号" align="center" prop="shippingSn" />
       <el-table-column label="是否拆分发货0否1是" align="center" prop="splitShipment" />
       <el-table-column label="渠道单号" align="center" prop="channelSn" />
@@ -335,8 +351,16 @@
         <el-form-item label="地址" prop="address">
           <el-input v-model="form.address" placeholder="请输入地址" />
         </el-form-item>
-        <el-form-item label="支付方式：1现金，2余额，3网银，4支付宝，5微信" prop="paymentMethod">
-          <el-input v-model="form.paymentMethod" placeholder="请输入支付方式：1现金，2余额，3网银，4支付宝，5微信" />
+        <el-form-item label="支付方式" prop="paymentMethod">
+          <el-select v-model="form.paymentMethod" multiple placeholder="请选择">
+            <el-option
+              v-for="item in payOptions"
+              :key="item.roleId"
+              :label="item.roleName"
+              :value="item.roleId"
+              :disabled="item.status == 1"
+            ></el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="订单金额" prop="orderMoney">
           <el-input v-model="form.orderMoney" placeholder="请输入订单金额" />
@@ -406,11 +430,36 @@
         <el-button @click="cancel">取 消</el-button>
       </div>
     </el-dialog>
+
+    <!-- 批量上传对话框 -->
+    <el-dialog :title="title" :visible.sync="openUp" width="500px" append-to-body>
+      <el-form ref="form" :model="formUp" :rules="rules" label-width="80px">
+        <el-form-item label="订单来源">
+          <el-radio-group v-model="formUp.type" >
+            <el-radio
+              v-for="dict in orderTypeOptions"
+              :key="dict.dictValue"
+              :label="dict.dictValue"
+            >{{dict.dictLabel}}</el-radio>
+          </el-radio-group>
+        </el-form-item>
+        <li class='item'>
+          <input type="file" id="file1">
+        </li>
+
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="submitUpForm">确 定</el-button>
+        <el-button @click="cancel">取 消</el-button>
+      </div>
+    </el-dialog>
+
+
   </div>
 </template>
 
 <script>
-import { listMaster, getMaster, delMaster, addMaster, updateMaster, exportMaster } from "@/api/biz/master";
+import { listMaster, getMaster, delMaster, addMaster,addUpMaster, updateMaster, exportMaster } from "@/api/biz/master";
 
 export default {
   name: "Master",
@@ -436,6 +485,8 @@ export default {
       title: "",
       // 是否显示弹出层
       open: false,
+      //是否显示上传弹窗
+      openUp: false,
       // 查询参数
       queryParams: {
         pageNum: 1,
@@ -463,8 +514,12 @@ export default {
         receiveTime: null,
         orderStatus: null,
       },
+      payOptions:[],
+      orderTypeOptions:[],
       // 表单参数
       form: {},
+      //批量上传表单
+      formUp:{},
       // 表单校验
       rules: {
         orderSn: [
@@ -505,6 +560,13 @@ export default {
   },
   created() {
     this.getList();
+    this.getDicts("biz_order_pay_type").then(response => {
+      this.payOptions = response.data;
+    });
+    this.getDicts("biz_order_from_type").then(response => {
+      this.orderTypeOptions = response.data;
+    });
+
   },
   methods: {
     /** 查询订单主列表 */
@@ -519,6 +581,7 @@ export default {
     // 取消按钮
     cancel() {
       this.open = false;
+      this.openUp = false;
       this.reset();
     },
     // 表单重置
@@ -577,11 +640,17 @@ export default {
       this.open = true;
       this.title = "添加订单主";
     },
+    /** 新增按钮操作 */
+    handleAddFromXml() {
+      this.reset();
+      this.openUp = true;
+      this.title = "通过xml上传";
+    },
     /** 修改按钮操作 */
-    handleUpdate(row) {
+    submitUpdate(row) {
       this.reset();
       const id = row.id || this.ids
-      getMaster(id).then(response => {
+      addMaster(id).then(response => {
         this.form = response.data;
         this.open = true;
         this.title = "修改订单主";
@@ -605,6 +674,18 @@ export default {
             });
           }
         }
+      });
+    },
+    /** 批量上传按钮 */
+    submitUpForm() {
+      var data =document.getElementById("file1").files[0];
+      var fromData = new FormData();
+      fromData.append("file",data);
+      fromData.append("type",this.formUp.type);
+      addUpMaster(fromData).then(response => {
+        this.msgSuccess("新增成功");
+        this.open = false;
+        this.getList();
       });
     },
     /** 删除按钮操作 */
