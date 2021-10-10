@@ -96,20 +96,42 @@ public class BizOrderMasterController extends BaseController
                 //逐条读取记录，直至读完
                 r.readHeaders();
                 while (r.readRecord()) {
-                    hotel = new Hotel();
-                    hotel.setHotelId(r.get(0));
-                    hotel.setAddress(r.get("Address"));
-                    hotel.setAddressCn(r.get("Address_CN"));
-                    hotel.setAirportCode(r.get("AirportCode"));
-                    hotel.setCityCode(r.get("CityCode"));
-                    hotel.setCityName(r.get("CityName"));
-                    hotels.add(hotel);
+                    BizOrderMaster bizOrderMaster =new BizOrderMaster();
+//                    处理订单状态
+                    switch (r.get("订单状态")){
+                        case "待发货":
+                            bizOrderMaster.setOrderStatus(1);
+                            break;
+                        case "待支付":
+                            bizOrderMaster.setOrderStatus(2);
+                            break;
+                        case "已取消":
+                            bizOrderMaster.setOrderStatus(3);
+                            break;
+                        case "未发货，退款成功":
+                            bizOrderMaster.setOrderStatus(4);
+                            break;
+                        case "已发货，待签收":
+                            bizOrderMaster.setOrderStatus(5);
+                            break;
+                        case "已签收":
+                            bizOrderMaster.setOrderStatus(6);
+                            break;
+                        case "已发货，退款成功":
+                            bizOrderMaster.setOrderStatus(7);
+                            break;
+
+                    }
+
+                    bizOrderMasterService.insertBizOrderMaster(bizOrderMaster);
+
+
                 }
                 r.close();
-                return hotels;
+                return toAjax(true);
             } catch (Exception e) {
                 logger.info(e.getMessage());
-                return null;
+                return toAjax(false);
             } finally {
                 r.close();
             }
