@@ -23,7 +23,7 @@ public class BizOrderMaster extends BaseEntity
 
     /** 订单编号 */
     @Excel(name = "订单编号")
-    private Long orderSn;
+    private String orderSn;
 
     /** 下单人ID */
     @Excel(name = "下单人ID")
@@ -121,12 +121,12 @@ public class BizOrderMaster extends BaseEntity
     {
         return id;
     }
-    public void setOrderSn(Long orderSn) 
+    public void setOrderSn(String orderSn)
     {
         this.orderSn = orderSn;
     }
 
-    public Long getOrderSn() 
+    public String getOrderSn()
     {
         return orderSn;
     }

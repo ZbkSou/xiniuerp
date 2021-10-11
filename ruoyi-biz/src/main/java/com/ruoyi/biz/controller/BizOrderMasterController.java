@@ -2,6 +2,7 @@ package com.ruoyi.biz.controller;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -122,7 +123,23 @@ public class BizOrderMasterController extends BaseController
                             break;
 
                     }
-
+                    bizOrderMaster.setOrderSn(r.get("订单号"));
+                    bizOrderMaster.setCustomerId(Integer.parseInt(type));
+                    bizOrderMaster.setPaymentMethod(1);
+                    bizOrderMaster.setOrderMoney(BigDecimal.valueOf(Long.parseLong(r.get("商家实收金额(元)"))));
+                    bizOrderMaster.setDistrictMoney(BigDecimal.valueOf(Long.parseLong(r.get("店铺优惠折扣(元)"))));
+                    bizOrderMaster.setShippingMoney(BigDecimal.valueOf(0));
+                    bizOrderMaster.setShippingMoney(BigDecimal.valueOf(0));
+                    bizOrderMaster.setPaymentMoney(BigDecimal.valueOf(Long.parseLong(r.get("商家实收金额(元)"))));
+                    if(bizOrderMaster.getOrderStatus()>4){
+                        bizOrderMaster.setShippingCompName(r.get("快递公司"));
+                        bizOrderMaster.setShippingSn(r.get("快递单号"));
+                    }
+                    if(Integer.parseInt(r.get("商品数量(件)"))>1){
+                        bizOrderMaster.setSplitShipment(1);
+                    }else {
+                        bizOrderMaster.setSplitShipment(0);
+                    }
                     bizOrderMasterService.insertBizOrderMaster(bizOrderMaster);
 
 

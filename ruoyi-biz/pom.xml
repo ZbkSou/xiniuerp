@@ -19,6 +19,12 @@
         <groupId>com.ruoyi</groupId>
         <artifactId>ruoyi-common</artifactId>
     </dependency>
+        <!-- https://mvnrepository.com/artifact/com.opencsv/opencsv -->
+        <dependency>
+            <groupId>com.opencsv</groupId>
+            <artifactId>opencsv</artifactId>
+            <version>3.8</version>
+        </dependency>
     </dependencies>
 
 
