@@ -28,6 +28,15 @@ public interface BizProductInfoMapper
     public List<BizProductInfo> selectBizProductInfoList(BizProductInfo bizProductInfo);
 
     /**
+     * 查询商品信息列表
+     *
+     * @param bizProductInfo 商品信息
+     * @return 商品信息集合
+     */
+    public BizProductInfo selectBizProductInfoByCode(String  code);
+
+
+    /**
      * 新增商品信息
      * 
      * @param bizProductInfo 商品信息

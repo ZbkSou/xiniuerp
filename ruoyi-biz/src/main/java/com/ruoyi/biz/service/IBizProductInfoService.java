@@ -18,7 +18,13 @@ public interface IBizProductInfoService
      * @return 商品信息
      */
     public BizProductInfo selectBizProductInfoById(Integer id);
-
+    /**
+     * 查询商品
+     *
+     * @param id 商品信息主键
+     * @return 商品信息
+     */
+    public BizProductInfo selectBizProductInfoByCode(String id);
     /**
      * 查询商品信息列表
      * 

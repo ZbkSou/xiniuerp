@@ -5,8 +5,10 @@ import java.util.List;
 
 import com.ruoyi.biz.domain.BizPurchasingDetail;
 import com.ruoyi.biz.domain.BizWarehouseInfo;
+import com.ruoyi.biz.domain.BizWarehouseProduct;
 import com.ruoyi.biz.service.IBizPurchasingDetailService;
 import com.ruoyi.biz.service.IBizWarehouseInfoService;
+import com.ruoyi.biz.service.IBizWarehouseProductService;
 import com.ruoyi.common.core.domain.entity.SysUser;
 import com.ruoyi.common.utils.LogUtils;
 import org.slf4j.Logger;
@@ -44,6 +46,8 @@ public class BizPurchasingController extends BaseController {
     private IBizPurchasingDetailService bizPurchasingDetailService;
     @Autowired
     private IBizWarehouseInfoService bizWarehouseInfoService;
+    @Autowired
+    private IBizWarehouseProductService bizWarehouseProductService;
     /**
      * 查询进货列表
      */
@@ -122,7 +126,29 @@ public class BizPurchasingController extends BaseController {
                 detail.setUpdateTime(new Date());
                 detail.setSupplierId(bizPurchasing.getSupplierId());
                 detail.setwId(wid);
+
                 bizPurchasingDetailService.insertBizPurchasingDetail(detail);
+                BizWarehouseProduct bizWarehouseProduct = new BizWarehouseProduct();
+                bizWarehouseProduct.setProductId(detail.getProductId());
+                List<BizWarehouseProduct> bizWarehouseProductList =  bizWarehouseProductService.selectBizWarehouseProductList(bizWarehouseProduct);
+                if(bizWarehouseProductList.size()==1){
+                    int count = bizWarehouseProduct.getCurrentCnt();
+                    bizWarehouseProduct = bizWarehouseProductList.get(0);
+                    bizWarehouseProduct.setCurrentCnt(bizWarehouseProduct.getCurrentCnt()+count);
+                    bizWarehouseProduct.setUpdateBy(getUsername());
+                    bizWarehouseProduct.setUpdateTime(new Date());
+                    bizWarehouseProductService.updateBizWarehouseProduct(bizWarehouseProduct);
+                }else if (bizWarehouseProductList.size()==0){
+                    bizWarehouseProduct.setwId(wid);
+                    bizWarehouseProduct.setCreateBy(getUsername());
+                    bizWarehouseProduct.setCreateTime(new Date());
+                    bizWarehouseProduct.setUpdateBy(getUsername());
+                    bizWarehouseProduct.setUpdateTime(new Date());
+                    bizWarehouseProductService.insertBizWarehouseProduct(bizWarehouseProduct);
+                }
+
+
+
             }
         }
         return toAjax(res);

@@ -30,6 +30,9 @@ public class BizPurchasingDetail extends BaseEntity
     @Excel(name = "商品名称")
     private String productName;
 
+    /** 商品id */
+    @Excel(name = "商品id")
+    private Integer productId;
     /** 商品型号id */
     @Excel(name = "商品型号id")
     private String productModelsId;
@@ -62,6 +65,15 @@ public class BizPurchasingDetail extends BaseEntity
     public Integer getId() 
     {
         return id;
+    }
+    public void setProductId(Integer productId)
+    {
+        this.productId = productId;
+    }
+
+    public Integer getProductId()
+    {
+        return productId;
     }
     public void setPurchasingId(Integer purchasingId) 
     {

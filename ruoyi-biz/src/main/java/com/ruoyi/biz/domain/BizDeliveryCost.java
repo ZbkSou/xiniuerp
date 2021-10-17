@@ -68,13 +68,52 @@ public class BizDeliveryCost extends BaseEntity
     /** 统一结算快递费 */
     @Excel(name = "统一结算快递费")
     private BigDecimal deliveryCost;
-
+    /** 统一结算快递费 */
+    @Excel(name = "更新人")
+    private String updateBy;
+    /** 统一结算快递费 */
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @Excel(name = "更新时间", width = 30, dateFormat = "yyyy-MM-dd")
+    private Date updateTime;
+    /** 统一结算快递费 */
+    @Excel(name = "备注")
+    private String remark;
     /** 最后修改时间 */
     @JsonFormat(pattern = "yyyy-MM-dd")
     @Excel(name = "最后修改时间", width = 30, dateFormat = "yyyy-MM-dd")
     private Date modifiedTime;
 
-    public void setId(Integer id) 
+    @Override
+    public String getUpdateBy() {
+        return updateBy;
+    }
+
+    @Override
+    public void setUpdateBy(String updateBy) {
+        this.updateBy = updateBy;
+    }
+
+    @Override
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    @Override
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    @Override
+    public String getRemark() {
+        return remark;
+    }
+
+    @Override
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    public void setId(Integer id)
     {
         this.id = id;
     }

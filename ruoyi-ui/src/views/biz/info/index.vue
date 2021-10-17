@@ -19,16 +19,16 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="国条码" prop="barCode">
-        <el-input
-          v-model="queryParams.barCode"
-          placeholder="请输入国条码"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="一级分类ID" prop="oneCategoryId">
+<!--      <el-form-item label="国条码" prop="barCode">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.barCode"-->
+<!--          placeholder="请输入国条码"-->
+<!--          clearable-->
+<!--          size="small"-->
+<!--          @keyup.enter.native="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
+      <el-form-item label="一级分类" prop="oneCategoryId">
         <el-input
           v-model="queryParams.oneCategoryId"
           placeholder="请输入一级分类ID"
@@ -37,7 +37,7 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="二级分类ID" prop="twoCategoryId">
+      <el-form-item label="二级分类" prop="twoCategoryId">
         <el-input
           v-model="queryParams.twoCategoryId"
           placeholder="请输入二级分类ID"
@@ -46,7 +46,7 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="三级分类ID" prop="threeCategoryId">
+      <el-form-item label="三级分类" prop="threeCategoryId">
         <el-input
           v-model="queryParams.threeCategoryId"
           placeholder="请输入三级分类ID"
@@ -64,7 +64,7 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="供应商编码" prop="supplierCode">
+      <el-form-item label="供应商码" prop="supplierCode">
         <el-input
           v-model="queryParams.supplierCode"
           placeholder="请输入供应商编码"
@@ -74,7 +74,7 @@
         />
       </el-form-item>
 
-      <el-form-item label="上下架状态：" prop="publishStatus">
+      <el-form-item label="状态：" prop="publishStatus">
         <el-select v-model="queryParams.publishStatus" placeholder="请选择上下架状态：0下架1上架" clearable size="small">
           <el-option
             v-for="dict in publishStatusOptions"
@@ -84,37 +84,37 @@
           />
         </el-select>
       </el-form-item>
-      <el-form-item label="审核状态：" prop="auditStatus">
-        <el-select v-model="queryParams.auditStatus" placeholder="请选择审核状态：0未审核，1已审核" clearable size="small">
-          <el-option
-            v-for="dict in auditStatusOptions"
-            :key="dict.dictValue"
-            :label="dict.dictLabel"
-            :value="dict.dictValue"
-          />
-        </el-select>
-      </el-form-item>
+<!--      <el-form-item label="审核状态：" prop="auditStatus">-->
+<!--        <el-select v-model="queryParams.auditStatus" placeholder="请选择审核状态：0未审核，1已审核" clearable size="small">-->
+<!--          <el-option-->
+<!--            v-for="dict in auditStatusOptions"-->
+<!--            :key="dict.dictValue"-->
+<!--            :label="dict.dictLabel"-->
+<!--            :value="dict.dictValue"-->
+<!--          />-->
+<!--        </el-select>-->
+<!--      </el-form-item>-->
 
-      <el-form-item label="商品默认出厂成本" prop="defaultCost">
-        <el-input
-          v-model="queryParams.defaultCost"
-          placeholder="请输入商品默认进货成本"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="商品有效期" prop="shelfLife">
-        <el-input
-          v-model="queryParams.shelfLife"
-          placeholder="请输入商品有效期"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
+<!--      <el-form-item label="商品默认成本" prop="defaultCost">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.defaultCost"-->
+<!--          placeholder="请输入商品默认进货成本"-->
+<!--          clearable-->
+<!--          size="small"-->
+<!--          @keyup.enter.native="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
+<!--      <el-form-item label="商品有效期" prop="shelfLife">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.shelfLife"-->
+<!--          placeholder="请输入商品有效期"-->
+<!--          clearable-->
+<!--          size="small"-->
+<!--          @keyup.enter.native="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
 
-      <el-form-item label="拥有多型号：" prop="manyModels">
+      <el-form-item label="多型号：" prop="manyModels">
         <el-select v-model="queryParams.auditStatus" placeholder="请选择审核状态：" clearable size="small">
           <el-option
             v-for="dict in manyModelsOptions"
@@ -124,7 +124,7 @@
           />
         </el-select>
       </el-form-item>
-      <el-form-item label="商品录入时间" prop="indate">
+      <el-form-item label="录入时间" prop="indate">
         <el-date-picker clearable size="small"
           v-model="queryParams.indate"
           type="date"
@@ -194,7 +194,7 @@
       <el-table-column label="一级分类" align="center" prop="oneCategoryId" />
 <!--      <el-table-column label="二级分类" align="center" prop="twoCategoryId" />-->
 <!--      <el-table-column label="三级分类" align="center" prop="threeCategoryId" />-->
-      <el-table-column label="供应商ID" align="center" prop="supplierId" />
+      <el-table-column label="供应商" align="center" prop="supplierId" />
       <el-table-column label="供应商" align="center" prop="supplierCode" />
       <el-table-column label="上下架：" align="center" prop="publishStatus" >
         <template slot-scope="scope">
@@ -215,7 +215,7 @@
 <!--      <el-table-column label="有效期" align="center" prop="shelfLife" />-->
 <!--      <el-table-column label="描述" align="center" prop="descript" />-->
 <!--      <el-table-column label="提醒" align="center" prop="remind" />-->
-      <el-table-column label="拥有多型号：" align="center" prop="manyModels" >
+      <el-table-column label="多型号" align="center" prop="manyModels" >
         <template slot-scope="scope">
           <dict-tag :options="manyModelsOptions" :value="scope.row.manyModels"/>
         </template>
@@ -256,32 +256,32 @@
 
     <!-- 添加或修改商品信息对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+      <el-form ref="form" :model="form" :rules="rules" label-width="100px">
         <el-form-item label="商品编码" prop="productCode">
           <el-input v-model="form.productCode" placeholder="请输入商品编码" />
         </el-form-item>
         <el-form-item label="商品名称" prop="productName">
           <el-input v-model="form.productName" placeholder="请输入商品名称" />
         </el-form-item>
-        <el-form-item label="国条码" prop="barCode">
-          <el-input v-model="form.barCode" placeholder="请输入国条码" />
-        </el-form-item>
-        <el-form-item label="一级分类ID" prop="oneCategoryId">
+<!--        <el-form-item label="国条码" prop="barCode">-->
+<!--          <el-input v-model="form.barCode" placeholder="请输入国条码" />-->
+<!--        </el-form-item>-->
+        <el-form-item label="一级分类" prop="oneCategoryId">
           <el-input v-model="form.oneCategoryId" placeholder="请输入一级分类ID" />
         </el-form-item>
-        <el-form-item label="二级分类ID" prop="twoCategoryId">
+        <el-form-item label="二级分类" prop="twoCategoryId">
           <el-input v-model="form.twoCategoryId" placeholder="请输入二级分类ID" />
         </el-form-item>
-        <el-form-item label="三级分类ID" prop="threeCategoryId">
+        <el-form-item label="三级分类" prop="threeCategoryId">
           <el-input v-model="form.threeCategoryId" placeholder="请输入三级分类ID" />
         </el-form-item>
-        <el-form-item label="商品的供应商ID" prop="supplierId">
+        <el-form-item label="供应商" prop="supplierId">
           <el-input v-model="form.supplierId" placeholder="请输入商品的供应商ID" />
         </el-form-item>
         <el-form-item label="供应商编码" prop="supplierCode">
           <el-input v-model="form.supplierCode" placeholder="请输入供应商编码" />
         </el-form-item>
-        <el-form-item label="上下架：" prop="publishStatus">
+        <el-form-item label="上下架" prop="publishStatus">
           <el-radio-group v-model="form.publishStatus">
             <el-radio
               v-for="dict in publishStatusOptions"
@@ -290,7 +290,7 @@
             >{{dict.dictLabel}}</el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="审核：" prop="auditStatus">
+        <el-form-item label="审核" prop="auditStatus">
           <el-radio-group v-model="form.auditStatus">
             <el-radio
               v-for="dict in auditStatusOptions"
@@ -314,7 +314,7 @@
         <el-form-item label="产品型号" prop="productModels">
           <el-input v-model="form.productModels" placeholder="请输入产品型号" />
         </el-form-item>
-        <el-form-item label="进价" prop="defaultCost">
+        <el-form-item label="默认进价" prop="defaultCost">
           <el-input type="number" v-model="form.defaultCost" placeholder="请输入商品默认出厂成本" />
         </el-form-item>
         <el-form-item label="有效期" prop="shelfLife">
@@ -326,7 +326,7 @@
         <el-form-item label="提醒" prop="remind">
           <el-input v-model="form.remind" placeholder="请输入商品提醒" />
         </el-form-item>
-        <el-form-item label="拥有多型号：" prop="manyModels">
+        <el-form-item label="多型号" prop="manyModels">
           <el-radio-group v-model="form.manyModels">
             <el-radio
               v-for="dict in manyModelsOptions"

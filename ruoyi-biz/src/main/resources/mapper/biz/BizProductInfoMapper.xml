@@ -73,7 +73,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectBizProductInfoVo"/>
         where id = #{id}
     </select>
-        
+
+    <select id="selectBizProductInfoByCode" parameterType="String" resultMap="BizProductInfoResult">
+        <include refid="selectBizProductInfoVo"/>
+        where product_code = #{code}
+    </select>
+
     <insert id="insertBizProductInfo" parameterType="BizProductInfo" useGeneratedKeys="true" keyProperty="id">
         insert into biz_product_info
         <trim prefix="(" suffix=")" suffixOverrides=",">

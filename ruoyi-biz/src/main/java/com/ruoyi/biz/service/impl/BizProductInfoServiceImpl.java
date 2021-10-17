@@ -33,6 +33,18 @@ public class BizProductInfoServiceImpl implements IBizProductInfoService
     }
 
     /**
+     * 查询商品信息
+     *
+     * @param id 商品信息主键
+     * @return 商品信息
+     */
+    @Override
+    public BizProductInfo selectBizProductInfoByCode(String id)
+    {
+        return bizProductInfoMapper.selectBizProductInfoByCode(id);
+    }
+
+    /**
      * 查询商品信息列表
      * 
      * @param bizProductInfo 商品信息
