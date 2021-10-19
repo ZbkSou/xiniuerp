@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="供应商编码" prop="supplierCode">
+      <el-form-item label="编码" prop="supplierCode">
         <el-input
           v-model="queryParams.supplierCode"
           placeholder="请输入供应商编码"
@@ -10,7 +10,7 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="供应商名称" prop="supplierName">
+      <el-form-item label="名称" prop="supplierName">
         <el-input
           v-model="queryParams.supplierName"
           placeholder="请输入供应商名称"
@@ -19,12 +19,17 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="供应商类型：1.自营，2.平台" prop="supplierType">
-        <el-select v-model="queryParams.supplierType" placeholder="请选择供应商类型：1.自营，2.平台" clearable size="small">
-          <el-option label="请选择字典生成" value="" />
+      <el-form-item label="类型" prop="supplierType">
+        <el-select v-model="queryParams.supplierType" placeholder="请选择供应商类型" clearable size="small">
+          <el-option
+            v-for="dict in typeOptions"
+            :key="dict.dictValue"
+            :label="dict.dictLabel"
+            :value="dict.dictValue"
+          />
         </el-select>
       </el-form-item>
-      <el-form-item label="供应商联系人" prop="linkMan">
+      <el-form-item label="联系人" prop="linkMan">
         <el-input
           v-model="queryParams.linkMan"
           placeholder="请输入供应商联系人"
@@ -33,7 +38,7 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="供应商负责人" prop="principalMan">
+      <el-form-item label="负责人" prop="principalMan">
         <el-input
           v-model="queryParams.principalMan"
           placeholder="请输入供应商负责人"
@@ -51,25 +56,25 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="供应商开户银行名称" prop="bankName">
-        <el-input
-          v-model="queryParams.bankName"
-          placeholder="请输入供应商开户银行名称"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="银行账号" prop="bankAccount">
-        <el-input
-          v-model="queryParams.bankAccount"
-          placeholder="请输入银行账号"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="供应商地址" prop="address">
+<!--      <el-form-item label="开户银行" prop="bankName">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.bankName"-->
+<!--          placeholder="请输入供应商开户银行名称"-->
+<!--          clearable-->
+<!--          size="small"-->
+<!--          @keyup.enter.native="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
+<!--      <el-form-item label="银行账号" prop="bankAccount">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.bankAccount"-->
+<!--          placeholder="请输入银行账号"-->
+<!--          clearable-->
+<!--          size="small"-->
+<!--          @keyup.enter.native="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
+      <el-form-item label="地址" prop="address">
         <el-input
           v-model="queryParams.address"
           placeholder="请输入供应商地址"
@@ -78,12 +83,17 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="状态：0禁止，1启用" prop="supplierStatus">
-        <el-select v-model="queryParams.supplierStatus" placeholder="请选择状态：0禁止，1启用" clearable size="small">
-          <el-option label="请选择字典生成" value="" />
+      <el-form-item label="状态" prop="supplierStatus">
+        <el-select v-model="queryParams.supplierStatus" placeholder="请选择状态：" clearable size="small">
+          <el-option
+            v-for="dict in statusOptions"
+            :key="dict.dictValue"
+            :label="dict.dictLabel"
+            :value="dict.dictValue"
+          />
         </el-select>
       </el-form-item>
-      <el-form-item label="最后修改时间" prop="modifiedTime">
+      <el-form-item label="修改时间" prop="modifiedTime">
         <el-date-picker clearable size="small"
                         v-model="queryParams.modifiedTime"
                         type="date"
@@ -149,14 +159,18 @@
       <el-table-column label="供应商ID" align="center" prop="supplierId" />
       <el-table-column label="供应商编码" align="center" prop="supplierCode" />
       <el-table-column label="供应商名称" align="center" prop="supplierName" />
-      <el-table-column label="供应商类型：1.自营，2.平台" align="center" prop="supplierType" />
+      <el-table-column label="供应商类型" align="center" prop="supplierType" />
       <el-table-column label="供应商联系人" align="center" prop="linkMan" />
       <el-table-column label="供应商负责人" align="center" prop="principalMan" />
       <el-table-column label="联系电话" align="center" prop="phoneNumber" />
       <el-table-column label="供应商开户银行名称" align="center" prop="bankName" />
       <el-table-column label="银行账号" align="center" prop="bankAccount" />
       <el-table-column label="供应商地址" align="center" prop="address" />
-      <el-table-column label="状态：0禁止，1启用" align="center" prop="supplierStatus" />
+      <el-table-column label="状态" align="center" prop="supplierStatus" >
+        <template slot-scope="scope">
+          <dict-tag :options="statusOptions" :value="scope.row.warehouseStatus"/>
+        </template>
+      </el-table-column>
       <el-table-column label="最后修改时间" align="center" prop="modifiedTime" width="180">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.modifiedTime, '{y}-{m}-{d}') }}</span>
@@ -199,10 +213,14 @@
         <el-form-item label="供应商名称" prop="supplierName">
           <el-input v-model="form.supplierName" placeholder="请输入供应商名称" />
         </el-form-item>
-        <el-form-item label="供应商类型：1.自营，2.平台" prop="supplierType">
-          <el-select v-model="form.supplierType" placeholder="请选择供应商类型：1.自营，2.平台">
-            <el-option label="请选择字典生成" value="" />
-          </el-select>
+        <el-form-item label="供应商类型" prop="supplierType">
+          <el-radio-group v-model="form.supplierType">
+            <el-radio
+              v-for="dict in typeOptions"
+              :key="dict.dictValue"
+              :label="dict.dictValue"
+            >{{dict.dictLabel}}</el-radio>
+          </el-radio-group>
         </el-form-item>
         <el-form-item label="供应商联系人" prop="linkMan">
           <el-input v-model="form.linkMan" placeholder="请输入供应商联系人" />
@@ -222,18 +240,14 @@
         <el-form-item label="供应商地址" prop="address">
           <el-input v-model="form.address" placeholder="请输入供应商地址" />
         </el-form-item>
-        <el-form-item label="状态：0禁止，1启用">
+        <el-form-item label="状态">
           <el-radio-group v-model="form.supplierStatus">
-            <el-radio label="1">请选择字典生成</el-radio>
+            <el-radio
+              v-for="dict in statusOptions"
+              :key="dict.dictValue"
+              :label="dict.dictValue"
+            >{{dict.dictLabel}}</el-radio>
           </el-radio-group>
-        </el-form-item>
-        <el-form-item label="最后修改时间" prop="modifiedTime">
-          <el-date-picker clearable size="small"
-                          v-model="form.modifiedTime"
-                          type="date"
-                          value-format="yyyy-MM-dd"
-                          placeholder="选择最后修改时间">
-          </el-date-picker>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -251,6 +265,8 @@ export default {
   name: "Info",
   data() {
     return {
+      statusOptions:[],
+      typeOptions:[],
       // 遮罩层
       loading: true,
       // 导出遮罩层
@@ -298,37 +314,44 @@ export default {
           { required: true, message: "供应商名称不能为空", trigger: "blur" }
         ],
         supplierType: [
-          { required: true, message: "供应商类型：1.自营，2.平台不能为空", trigger: "change" }
+          { required: false, message: "供应商类型：1.自营，2.平台不能为空", trigger: "change" }
         ],
         linkMan: [
-          { required: true, message: "供应商联系人不能为空", trigger: "blur" }
+          { required: false, message: "供应商联系人不能为空", trigger: "blur" }
         ],
         principalMan: [
-          { required: true, message: "供应商负责人不能为空", trigger: "blur" }
+          { required: false, message: "供应商负责人不能为空", trigger: "blur" }
         ],
         phoneNumber: [
-          { required: true, message: "联系电话不能为空", trigger: "blur" }
+          { required: false, message: "联系电话不能为空", trigger: "blur" }
         ],
         bankName: [
-          { required: true, message: "供应商开户银行名称不能为空", trigger: "blur" }
+          { required: false, message: "供应商开户银行名称不能为空", trigger: "blur" }
         ],
         bankAccount: [
-          { required: true, message: "银行账号不能为空", trigger: "blur" }
+          { required: false, message: "银行账号不能为空", trigger: "blur" }
         ],
         address: [
-          { required: true, message: "供应商地址不能为空", trigger: "blur" }
+          { required: false, message: "供应商地址不能为空", trigger: "blur" }
         ],
         supplierStatus: [
           { required: true, message: "状态：0禁止，1启用不能为空", trigger: "blur" }
         ],
         modifiedTime: [
-          { required: true, message: "最后修改时间不能为空", trigger: "blur" }
+          { required: false, message: "最后修改时间不能为空", trigger: "blur" }
         ]
       }
     };
   },
   created() {
     this.getList();
+    this.getDicts("biz_warehouseinfo_status").then(response => {
+      this.statusOptions = response.data;
+    });
+    this.getDicts("biz_supplier_type").then(response => {
+      this.typeOptions = response.data;
+    });
+
   },
   methods: {
     /** 查询供应商信息列表 */
@@ -359,7 +382,6 @@ export default {
         bankAccount: null,
         address: null,
         supplierStatus: 0,
-        modifiedTime: null
       };
       this.resetForm("form");
     },

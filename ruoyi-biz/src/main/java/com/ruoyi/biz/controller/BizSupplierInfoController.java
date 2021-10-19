@@ -1,6 +1,8 @@
 package com.ruoyi.biz.controller;
 
+import java.util.Date;
 import java.util.List;
+
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,14 +24,13 @@ import com.ruoyi.common.core.page.TableDataInfo;
 
 /**
  * 供应商信息Controller
- * 
+ *
  * @author xiniu
  * @date 2021-09-12
  */
 @RestController
 @RequestMapping("/biz/supplierinfo")
-public class BizSupplierInfoController extends BaseController
-{
+public class BizSupplierInfoController extends BaseController {
     @Autowired
     private IBizSupplierInfoService bizSupplierInfoService;
 
@@ -38,8 +39,7 @@ public class BizSupplierInfoController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('biz:supplierinfo:list')")
     @GetMapping("/list")
-    public TableDataInfo list(BizSupplierInfo bizSupplierInfo)
-    {
+    public TableDataInfo list(BizSupplierInfo bizSupplierInfo) {
         startPage();
         List<BizSupplierInfo> list = bizSupplierInfoService.selectBizSupplierInfoList(bizSupplierInfo);
         return getDataTable(list);
@@ -51,8 +51,7 @@ public class BizSupplierInfoController extends BaseController
     @PreAuthorize("@ss.hasPermi('biz:supplierinfo:export')")
     @Log(title = "供应商信息", businessType = BusinessType.EXPORT)
     @GetMapping("/export")
-    public AjaxResult export(BizSupplierInfo bizSupplierInfo)
-    {
+    public AjaxResult export(BizSupplierInfo bizSupplierInfo) {
         List<BizSupplierInfo> list = bizSupplierInfoService.selectBizSupplierInfoList(bizSupplierInfo);
         ExcelUtil<BizSupplierInfo> util = new ExcelUtil<BizSupplierInfo>(BizSupplierInfo.class);
         return util.exportExcel(list, "供应商信息数据");
@@ -63,8 +62,7 @@ public class BizSupplierInfoController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('biz:supplierinfo:query')")
     @GetMapping(value = "/{supplierId}")
-    public AjaxResult getInfo(@PathVariable("supplierId") Integer supplierId)
-    {
+    public AjaxResult getInfo(@PathVariable("supplierId") Integer supplierId) {
         return AjaxResult.success(bizSupplierInfoService.selectBizSupplierInfoBySupplierId(supplierId));
     }
 
@@ -74,8 +72,9 @@ public class BizSupplierInfoController extends BaseController
     @PreAuthorize("@ss.hasPermi('biz:supplierinfo:add')")
     @Log(title = "供应商信息", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody BizSupplierInfo bizSupplierInfo)
-    {
+    public AjaxResult add(@RequestBody BizSupplierInfo bizSupplierInfo) {
+
+//        bizSupplierInfo.setModifiedTime(new Date());
         return toAjax(bizSupplierInfoService.insertBizSupplierInfo(bizSupplierInfo));
     }
 
@@ -85,8 +84,8 @@ public class BizSupplierInfoController extends BaseController
     @PreAuthorize("@ss.hasPermi('biz:supplierinfo:edit')")
     @Log(title = "供应商信息", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody BizSupplierInfo bizSupplierInfo)
-    {
+    public AjaxResult edit(@RequestBody BizSupplierInfo bizSupplierInfo) {
+//        bizSupplierInfo.setModifiedTime(new Date());
         return toAjax(bizSupplierInfoService.updateBizSupplierInfo(bizSupplierInfo));
     }
 
@@ -95,9 +94,8 @@ public class BizSupplierInfoController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('biz:supplierinfo:remove')")
     @Log(title = "供应商信息", businessType = BusinessType.DELETE)
-	@DeleteMapping("/{supplierIds}")
-    public AjaxResult remove(@PathVariable Integer[] supplierIds)
-    {
+    @DeleteMapping("/{supplierIds}")
+    public AjaxResult remove(@PathVariable Integer[] supplierIds) {
         return toAjax(bizSupplierInfoService.deleteBizSupplierInfoBySupplierIds(supplierIds));
     }
 }

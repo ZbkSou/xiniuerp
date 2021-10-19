@@ -269,12 +269,12 @@
         <el-form-item label="一级分类" prop="oneCategoryId">
           <el-input v-model="form.oneCategoryId" placeholder="请输入一级分类ID" />
         </el-form-item>
-        <el-form-item label="二级分类" prop="twoCategoryId">
-          <el-input v-model="form.twoCategoryId" placeholder="请输入二级分类ID" />
-        </el-form-item>
-        <el-form-item label="三级分类" prop="threeCategoryId">
-          <el-input v-model="form.threeCategoryId" placeholder="请输入三级分类ID" />
-        </el-form-item>
+<!--        <el-form-item label="二级分类" prop="twoCategoryId">-->
+<!--          <el-input v-model="form.twoCategoryId" placeholder="请输入二级分类ID" />-->
+<!--        </el-form-item>-->
+<!--        <el-form-item label="三级分类" prop="threeCategoryId">-->
+<!--          <el-input v-model="form.threeCategoryId" placeholder="请输入三级分类ID" />-->
+<!--        </el-form-item>-->
         <el-form-item label="供应商" prop="supplierId">
           <el-input v-model="form.supplierId" placeholder="请输入商品的供应商ID" />
         </el-form-item>
@@ -450,7 +450,7 @@ export default {
           { required: true, message: "审核状态：0未审核，1已审核不能为空", trigger: "blur" }
         ],
         productModels: [
-          { required: true, message: "产品型号不能为空", trigger: "blur" }
+          { required: false, message: "产品型号不能为空", trigger: "blur" }
         ],
         defaultCost: [
           { required: true, message: "商品进货价不能为空", trigger: "blur" }
