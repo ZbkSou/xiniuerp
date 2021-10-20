@@ -252,11 +252,11 @@
 <!--                    <el-input v-model="item.supplierCode" placeholder="请输入供应商编码" size="small"/>-->
 <!--                  </el-form-item>-->
                   <el-form-item label="商品编码" prop="productCode">
-                    <el-input v-model="item.productCode" placeholder="请输入商品编码" size="small"/>
+                    <el-input v-model="item.productId" placeholder="请输入商品编码" size="small"/>
                   </el-form-item>
-                  <el-form-item label="名称" prop="productName">
-                    <el-input v-model="item.productName" placeholder="请输入商品名称"size="small"/>
-                  </el-form-item>
+<!--                  <el-form-item label="名称" prop="productName">-->
+<!--                    <el-input v-model="item.productName" placeholder="请输入商品名称"size="small"/>-->
+<!--                  </el-form-item>-->
                   <el-form-item label="型号id" prop="productModelsId">
                     <el-input v-model="item.productModelsId" placeholder="请输入商品型号id"size="small"/>
                   </el-form-item>

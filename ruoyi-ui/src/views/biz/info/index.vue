@@ -29,13 +29,15 @@
 <!--        />-->
 <!--      </el-form-item>-->
       <el-form-item label="一级分类" prop="oneCategoryId">
-        <el-input
-          v-model="queryParams.oneCategoryId"
-          placeholder="请输入一级分类ID"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
+
+        <el-select v-model="queryParams.oneCategoryId" placeholder="请选择分类" clearable size="small">
+          <el-option
+            v-for="dict in categoryList"
+            :key="dict.categoryId"
+            :label="dict.categoryName"
+            :value="dict.categoryId"
+          />
+        </el-select>
       </el-form-item>
       <el-form-item label="二级分类" prop="twoCategoryId">
         <el-input
@@ -188,14 +190,17 @@
     <el-table v-loading="loading" :data="infoList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="商品ID" align="center" prop="id" />
-      <el-table-column label="商品编码" align="center" prop="productCode" />
-      <el-table-column label="商品名称" align="center" prop="productName" />
+      <el-table-column label="商品编码" align="center" prop="productCode"width="100" />
+      <el-table-column label="商品名称" align="center" prop="productName" width="180"/>
 <!--      <el-table-column label="国条码" align="center" prop="barCode" />-->
-      <el-table-column label="一级分类" align="center" prop="oneCategoryId" />
+      <el-table-column label="一级分类" align="center" prop="oneCategoryId" >
+
+      </el-table-column>
 <!--      <el-table-column label="二级分类" align="center" prop="twoCategoryId" />-->
 <!--      <el-table-column label="三级分类" align="center" prop="threeCategoryId" />-->
       <el-table-column label="供应商" align="center" prop="supplierId" />
       <el-table-column label="供应商" align="center" prop="supplierCode" />
+      <el-table-column label="商品进价" align="center" prop="defaultCost" />
       <el-table-column label="上下架：" align="center" prop="publishStatus" >
         <template slot-scope="scope">
           <dict-tag :options="publishStatusOptions" :value="scope.row.publishStatus"/>
@@ -211,7 +216,7 @@
       <el-table-column label="高度" align="center" prop="height" />
       <el-table-column label="宽度" align="center" prop="width" />
       <el-table-column label="产品型号" align="center" prop="productModels" />
-      <el-table-column label="商品进价" align="center" prop="defaultCost" />
+
 <!--      <el-table-column label="有效期" align="center" prop="shelfLife" />-->
 <!--      <el-table-column label="描述" align="center" prop="descript" />-->
 <!--      <el-table-column label="提醒" align="center" prop="remind" />-->
@@ -220,7 +225,7 @@
           <dict-tag :options="manyModelsOptions" :value="scope.row.manyModels"/>
         </template>
       </el-table-column>
-      <el-table-column label="录入时间" align="center" prop="indate" width="180">
+      <el-table-column label="录入时间" align="center" prop="indate" width="150">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.indate) }}</span>
         </template>
@@ -267,7 +272,14 @@
 <!--          <el-input v-model="form.barCode" placeholder="请输入国条码" />-->
 <!--        </el-form-item>-->
         <el-form-item label="一级分类" prop="oneCategoryId">
-          <el-input v-model="form.oneCategoryId" placeholder="请输入一级分类ID" />
+          <el-select v-model="form.oneCategoryId" placeholder="请选择分类" >
+            <el-option
+              v-for="dict in categoryList"
+              :key="dict.categoryId"
+              :label="dict.categoryName"
+              :value="dict.categoryId"
+            />
+          </el-select>
         </el-form-item>
 <!--        <el-form-item label="二级分类" prop="twoCategoryId">-->
 <!--          <el-input v-model="form.twoCategoryId" placeholder="请输入二级分类ID" />-->
@@ -356,7 +368,7 @@
 
 <script>
 import { listInfo, getInfo, delInfo, addInfo, updateInfo, exportInfo } from "@/api/biz/info";
-
+import { listCategory } from "@/api/biz/category";
 export default {
   name: "Info",
   data() {
@@ -387,6 +399,15 @@ export default {
       auditStatusOptions:[],
       //是否多型号
       manyModelsOptions:[],
+      // 查询分类参数
+      queryCategoryParams: {
+        pageNum: 1,
+        pageSize: 10,
+        categoryLevel: 2,
+        categoryStatus: 0,
+      },
+      //分类
+      categoryList:[],
       // 查询参数
       queryParams: {
         pageNum: 1,
@@ -494,6 +515,10 @@ export default {
     this.getDicts("biz_product_publish").then(response => {
       this.publishStatusOptions = response.data;
     });
+    listCategory(this.queryCategoryParams).then(response => {
+      this.categoryList = response.rows;
+    });
+
   },
   methods: {
     /** 查询商品信息列表 */

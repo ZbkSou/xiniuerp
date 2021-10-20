@@ -7,6 +7,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <resultMap type="BizPurchasingDetail" id="BizPurchasingDetailResult">
         <result property="id"    column="id"    />
         <result property="purchasingId"    column="purchasing_id"    />
+        <result property="productId"    column="product_id"    />
         <result property="productCode"    column="product_code"    />
         <result property="productName"    column="product_name"    />
         <result property="productModelsId"    column="product_models_id"    />
@@ -30,6 +31,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectBizPurchasingDetailVo"/>
         <where>  
             <if test="purchasingId != null "> and purchasing_id = #{purchasingId}</if>
+            <if test="productId != null  and productId != ''"> and product_id = #{productId}</if>
             <if test="productCode != null  and productCode != ''"> and product_code = #{productCode}</if>
             <if test="productName != null  and productName != ''"> and product_name like concat('%', #{productName}, '%')</if>
             <if test="productModelsId != null  and productModelsId != ''"> and product_models_id = #{productModelsId}</if>
@@ -50,6 +52,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         insert into biz_purchasing_detail
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="purchasingId != null">purchasing_id,</if>
+            <if test="productId != null and productId != ''">product_id,</if>
             <if test="productCode != null and productCode != ''">product_code,</if>
             <if test="productName != null and productName != ''">product_name,</if>
             <if test="productModelsId != null">product_models_id,</if>
@@ -66,6 +69,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="purchasingId != null">#{purchasingId},</if>
+            <if test="productId != null and productId != ''">#{productId},</if>
             <if test="productCode != null and productCode != ''">#{productCode},</if>
             <if test="productName != null and productName != ''">#{productName},</if>
             <if test="productModelsId != null">#{productModelsId},</if>
@@ -86,6 +90,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         update biz_purchasing_detail
         <trim prefix="SET" suffixOverrides=",">
             <if test="purchasingId != null">purchasing_id = #{purchasingId},</if>
+            <if test="productId != null and productId != ''">product_id = #{productId},</if>
             <if test="productCode != null and productCode != ''">product_code = #{productCode},</if>
             <if test="productName != null and productName != ''">product_name = #{productName},</if>
             <if test="productModelsId != null">product_models_id = #{productModelsId},</if>
