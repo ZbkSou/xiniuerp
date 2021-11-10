@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="订单编号" prop="orderSn">
+      <el-form-item label="编号" prop="orderSn">
         <el-input
           v-model="queryParams.orderSn"
           placeholder="请输入订单编号"
@@ -10,7 +10,7 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="下单人ID" prop="customerId">
+      <el-form-item label="订单来源" prop="customerId">
         <el-input
           v-model="queryParams.customerId"
           placeholder="请输入下单人ID"
@@ -19,7 +19,7 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="收货人姓名" prop="shippingUser">
+      <el-form-item label="收货人" prop="shippingUser">
         <el-input
           v-model="queryParams.shippingUser"
           placeholder="请输入收货人姓名"
@@ -84,34 +84,34 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="优惠金额" prop="districtMoney">
-        <el-input
-          v-model="queryParams.districtMoney"
-          placeholder="请输入优惠金额"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="运费金额" prop="shippingMoney">
-        <el-input
-          v-model="queryParams.shippingMoney"
-          placeholder="请输入运费金额"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="支付金额" prop="paymentMoney">
-        <el-input
-          v-model="queryParams.paymentMoney"
-          placeholder="请输入支付金额"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="快递公司名称" prop="shippingCompName">
+<!--      <el-form-item label="优惠金额" prop="districtMoney">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.districtMoney"-->
+<!--          placeholder="请输入优惠金额"-->
+<!--          clearable-->
+<!--          size="small"-->
+<!--          @keyup.enter.native="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
+<!--      <el-form-item label="运费金额" prop="shippingMoney">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.shippingMoney"-->
+<!--          placeholder="请输入运费金额"-->
+<!--          clearable-->
+<!--          size="small"-->
+<!--          @keyup.enter.native="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
+<!--      <el-form-item label="支付金额" prop="paymentMoney">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.paymentMoney"-->
+<!--          placeholder="请输入支付金额"-->
+<!--          clearable-->
+<!--          size="small"-->
+<!--          @keyup.enter.native="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
+      <el-form-item label="快递公司" prop="shippingCompName">
         <el-input
           v-model="queryParams.shippingCompName"
           placeholder="请输入快递公司名称"
@@ -129,10 +129,10 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="是否拆分发货0否1是" prop="splitShipment">
+      <el-form-item label="拆分发货" prop="splitShipment">
         <el-input
           v-model="queryParams.splitShipment"
-          placeholder="请输入是否拆分发货0否1是"
+          placeholder="请输入是否拆分发货"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
@@ -156,15 +156,15 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="订单所在部门id" prop="deptId">
-        <el-input
-          v-model="queryParams.deptId"
-          placeholder="请输入订单所在部门id"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
+<!--      <el-form-item label="订单所在部门id" prop="deptId">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.deptId"-->
+<!--          placeholder="请输入订单所在部门id"-->
+<!--          clearable-->
+<!--          size="small"-->
+<!--          @keyup.enter.native="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
       <el-form-item label="发货时间" prop="shippingTime">
         <el-date-picker clearable size="small"
           v-model="queryParams.shippingTime"
@@ -191,7 +191,12 @@
       </el-form-item>
       <el-form-item label="订单状态" prop="orderStatus">
         <el-select v-model="queryParams.orderStatus" placeholder="请选择订单状态" clearable size="small">
-          <el-option label="请选择字典生成" value="" />
+            <el-option
+              v-for="item in orderStatusOptions"
+              :key="item.dictValue"
+              :label="item.dictLabel"
+              :value="item.dictValue"
+            ></el-option>
         </el-select>
       </el-form-item>
       <el-form-item>
@@ -281,7 +286,7 @@
       <el-table-column label="是否拆分发货0否1是" align="center" prop="splitShipment" />
       <el-table-column label="渠道单号" align="center" prop="channelSn" />
       <el-table-column label="渠道名" align="center" prop="channelName" />
-      <el-table-column label="订单所在部门id" align="center" prop="deptId" />
+<!--      <el-table-column label="订单所在部门id" align="center" prop="deptId" />-->
       <el-table-column label="发货时间" align="center" prop="shippingTime" width="180">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.shippingTime, '{y}-{m}-{d}') }}</span>
@@ -297,7 +302,11 @@
           <span>{{ parseTime(scope.row.receiveTime, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="订单状态" align="center" prop="orderStatus" />
+      <el-table-column label="订单状态" align="center" prop="orderStatus" >
+        <template slot-scope="scope">
+          <dict-tag :options="orderStatusOptions" :value="scope.row.orderStatus"/>
+        </template>
+      </el-table-column>
       <el-table-column label="备注" align="center" prop="remark" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
@@ -318,7 +327,7 @@
         </template>
       </el-table-column>
     </el-table>
-    
+
     <pagination
       v-show="total>0"
       :total="total"
@@ -516,6 +525,7 @@ export default {
       },
       payOptions:[],
       orderTypeOptions:[],
+      orderStatusOptions:[],
       // 表单参数
       form: {},
       //批量上传表单
@@ -565,6 +575,9 @@ export default {
     });
     this.getDicts("biz_order_from_type").then(response => {
       this.orderTypeOptions = response.data;
+    });
+    this.getDicts("biz_order_status").then(response => {
+      this.orderStatusOptions = response.data;
     });
 
   },
@@ -683,7 +696,7 @@ export default {
       fromData.append("file",data);
       fromData.append("type",this.formUp.type);
       addUpMaster(fromData).then(response => {
-        this.msgSuccess("新增成功");
+        this.msgSuccess(response.msg);
         this.open = false;
         this.getList();
       });

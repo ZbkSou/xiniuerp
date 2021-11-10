@@ -1,6 +1,8 @@
 package com.ruoyi.biz.service.impl;
 
 import java.util.List;
+import java.util.Map;
+
 import com.ruoyi.common.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,6 +34,16 @@ public class BizOrderMasterServiceImpl implements IBizOrderMasterService
         return bizOrderMasterMapper.selectBizOrderMasterById(id);
     }
 
+    @Override
+    public List<Map<String,String>> selectBizOrderMasterStatistics(Map<String,String> map)
+    {
+        return bizOrderMasterMapper.selectBizOrderMasterStatistics(map);
+    }
+    @Override
+    public List<Map<String,String>> selectBizOrderClass(Map<String,String> map)
+    {
+        return bizOrderMasterMapper.selectBizOrderClass(map);
+    }
     /**
      * 查询订单主列表
      * 

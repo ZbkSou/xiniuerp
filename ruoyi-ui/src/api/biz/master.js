@@ -33,7 +33,12 @@ export function addUpMaster(data) {
     data: data
   })
 }
-
+export function selectBizOrderMasterStatistics() {
+  return request({
+    url: '/biz/master/selectBizOrderMasterStatistics',
+    method: 'get',
+  })
+}
 
 // 修改订单主
 export function updateMaster(data) {

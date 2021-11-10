@@ -1,6 +1,8 @@
 package com.ruoyi.biz.service;
 
 import java.util.List;
+import java.util.Map;
+
 import com.ruoyi.biz.domain.BizOrderMaster;
 
 /**
@@ -19,6 +21,18 @@ public interface IBizOrderMasterService
      */
     public BizOrderMaster selectBizOrderMasterById(Integer id);
 
+    /**
+     * 统计
+     * @return
+     */
+    public List<Map<String,String>> selectBizOrderMasterStatistics(Map<String,String> map);
+
+
+    /**
+     * 统计种类
+     * @return
+     */
+    public List<Map<String,String>> selectBizOrderClass(Map<String,String> map);
     /**
      * 查询订单主列表
      * 

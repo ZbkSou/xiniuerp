@@ -24,7 +24,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectBizPurchasingDetailVo">
-        select id, purchasing_id, product_code, product_name, product_models_id, count, pice, supplier_id, supplier_code, w_id, create_by, create_time, update_by, update_time, remark from biz_purchasing_detail
+        select id, purchasing_id,product_id, product_code, product_name, product_models_id, count, pice, supplier_id, supplier_code, w_id, create_by, create_time, update_by, update_time, remark from biz_purchasing_detail
     </sql>
 
     <select id="selectBizPurchasingDetailList" parameterType="BizPurchasingDetail" resultMap="BizPurchasingDetailResult">

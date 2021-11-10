@@ -71,7 +71,128 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectBizOrderMasterVo"/>
         where id = #{id}
     </select>
-        
+
+    <select id="selectBizOrderMasterStatistics"  parameterType="hashmap" resultType="java.util.Map">
+        select
+            lefttable.date,
+            IFNULL(righttable.m, '0') AS count,
+        IFNULL(righttable.tystatus , '0')AS type
+        from
+            (
+                SELECT
+                    date_sub(
+                            CURDATE(),
+                            INTERVAL @i :=@i + 1 DAY
+			) AS date
+                FROM
+                    (
+                    SELECT
+                    1
+                    UNION ALL
+                    SELECT
+                    1
+                    UNION ALL
+                    SELECT
+                    1
+                    UNION ALL
+                    SELECT
+                    1
+                    UNION ALL
+                    SELECT
+                    1
+                    UNION ALL
+                    SELECT
+                    1
+                    UNION ALL
+                    SELECT
+                    1
+                    UNION ALL
+                    SELECT
+                    1
+                    UNION ALL
+                    SELECT
+                    1
+                    UNION ALL
+                    SELECT
+                    1
+                    UNION ALL
+                    SELECT
+                    1
+                    UNION ALL
+                    SELECT
+                    1
+                    UNION ALL
+                    SELECT
+                    1
+                    UNION ALL
+                    SELECT
+                    1
+                    UNION ALL
+                    SELECT
+                    1
+                    UNION ALL
+                    SELECT
+                    1
+                    UNION ALL
+                    SELECT
+                    1
+                    UNION ALL
+                    SELECT
+                    1
+                    UNION ALL
+                    SELECT
+                    1
+                    UNION ALL
+                    SELECT
+                    1
+                    UNION ALL
+                    SELECT
+                    1
+                    UNION ALL
+                    SELECT
+                    1
+                    UNION ALL
+                    SELECT
+                    1
+                    UNION ALL
+                    SELECT
+                    1
+                    UNION ALL
+                    SELECT
+                    1
+                    UNION ALL
+                    SELECT
+                    1
+                    UNION ALL
+                    SELECT
+                    1
+                    UNION ALL
+                    SELECT
+                    1
+                    UNION ALL
+                    SELECT
+                    1
+                    UNION ALL
+                    SELECT
+                    1
+                    ) AS tmp,
+                    (SELECT @i := - 1) t
+            ) AS lefttable
+                LEFT JOIN (
+                SELECT
+                    count(*) AS m,
+                    DATE_FORMAT(af2.create_time, '%Y-%m-%d') AS gptime,
+                    af2.order_status AS tystatus
+                FROM
+                    biz_order_master af2
+                WHERE
+        <if test="status != null and status != ''"> af2.order_status= #{status} AND </if>
+        <if test="customerId != null and customerId != ''"> af2.customer_id= #{customerId} AND</if> DATE(af2.create_time) >= DATE_SUB(CURDATE(), INTERVAL 29 DAY)
+        GROUP BY
+            gptime,
+            tystatus
+            ) AS righttable ON lefttable.date = righttable.gptime ORDER BY lefttable.date ASC
+    </select>
     <insert id="insertBizOrderMaster" parameterType="BizOrderMaster" useGeneratedKeys="true" keyProperty="id">
         insert into biz_order_master
         <trim prefix="(" suffix=")" suffixOverrides=",">

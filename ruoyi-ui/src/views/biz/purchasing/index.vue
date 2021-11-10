@@ -251,7 +251,7 @@
 <!--                  <el-form-item label="供应商编码" prop="supplierCode" >-->
 <!--                    <el-input v-model="item.supplierCode" placeholder="请输入供应商编码" size="small"/>-->
 <!--                  </el-form-item>-->
-                  <el-form-item label="商品编码" prop="productCode">
+                  <el-form-item label="商品编码" prop="productId">
                     <el-input v-model="item.productId" placeholder="请输入商品编码" size="small"/>
                   </el-form-item>
 <!--                  <el-form-item label="名称" prop="productName">-->

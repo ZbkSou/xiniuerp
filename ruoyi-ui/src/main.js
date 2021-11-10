@@ -11,7 +11,7 @@ import App from './App'
 import store from './store'
 import router from './router'
 import directive from './directive' //directive
-
+import echarts from 'echarts'
 import './assets/icons' // icon
 import './permission' // permission control
 import { getDicts } from "@/api/system/dict/data";
@@ -41,7 +41,7 @@ Vue.prototype.selectDictLabel = selectDictLabel
 Vue.prototype.selectDictLabels = selectDictLabels
 Vue.prototype.download = download
 Vue.prototype.handleTree = handleTree
-
+Vue.prototype.$echarts = echarts
 Vue.prototype.msgSuccess = function (msg) {
   this.$message({ showClose: true, message: msg, type: "success" });
 }
