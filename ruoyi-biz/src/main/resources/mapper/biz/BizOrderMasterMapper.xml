@@ -193,6 +193,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             tystatus
             ) AS righttable ON lefttable.date = righttable.gptime ORDER BY lefttable.date ASC
     </select>
+
+
+    <select id ="selectBizOrderClass"  parameterType="hashmap" resultType="java.util.Map">
+        SELECT sum(c.product_cnt) as value, c.product_code as name
+        FROM biz_order_master b join biz_order_detail c on b.id = c.order_id
+        WHERE DATE_SUB(CURDATE(), INTERVAL 7 DAY) <![CDATA[ <= ]]>  b.create_time
+        GROUP BY c.product_code
+    </select>
+
     <insert id="insertBizOrderMaster" parameterType="BizOrderMaster" useGeneratedKeys="true" keyProperty="id">
         insert into biz_order_master
         <trim prefix="(" suffix=")" suffixOverrides=",">

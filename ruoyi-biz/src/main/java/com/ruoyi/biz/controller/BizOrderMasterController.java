@@ -56,7 +56,7 @@ public class BizOrderMasterController extends BaseController {
      * 统计订单状态
      */
     @PreAuthorize("@ss.hasPermi('biz:master:list')")
-    @GetMapping("/selectBizOrderMasterStatistics")
+    @PostMapping("/selectBizOrderMasterStatistics")
     public AjaxResult selectBizOrderMasterStatistics(String type) {
 
         Map<String,String> param = new HashMap<>();
@@ -119,7 +119,7 @@ public class BizOrderMasterController extends BaseController {
      * 查询订单产品分类
      */
     @PreAuthorize("@ss.hasPermi('biz:master:list')")
-    @GetMapping("/selectBizOrderClass")
+    @PostMapping("/selectBizOrderClass")
     public AjaxResult selectBizOrderClass(String type){
         Map<String,String> param = new HashMap<>();
         if(type!=null){

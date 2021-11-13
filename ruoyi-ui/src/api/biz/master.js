@@ -33,13 +33,20 @@ export function addUpMaster(data) {
     data: data
   })
 }
-export function selectBizOrderMasterStatistics() {
+export function selectBizOrderMasterStatistics(data) {
   return request({
     url: '/biz/master/selectBizOrderMasterStatistics',
-    method: 'get',
+    method: 'post',
+    data: data
   })
 }
-
+export function selectBizOrderClass(data) {
+  return request({
+    url: '/biz/master/selectBizOrderClass',
+    method: 'post',
+    data: data
+  })
+}
 // 修改订单主
 export function updateMaster(data) {
   return request({

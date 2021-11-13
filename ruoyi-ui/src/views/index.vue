@@ -12,13 +12,6 @@
                   </el-input>
                 </el-form-item>
               </el-col>
-              <el-col :span="24">
-                <el-form-item label="日期范围" prop="field105">
-                  <el-date-picker type="daterange" v-model="formData.field105" format="yyyy-MM-dd"
-                                  value-format="yyyy-MM-dd" :style="{width: '100%'}" start-placeholder="开始日期"
-                                  end-placeholder="结束日期" range-separator="至" clearable></el-date-picker>
-                </el-form-item>
-              </el-col>
           </el-col>
           <el-col :span="24">
             <el-form-item size="large">
@@ -29,33 +22,40 @@
         </el-form>
       </el-col>
     </el-row>
+    <el-row :gutter="20">
     <el-col :sm="24" :lg="12" style="padding-left: 50px">
       <div id="orderChart" :style="{width: '1000px', height: '600px'}"></div>
     </el-col>
+    </el-row>
+    <el-row :gutter="20">
+    <el-col :sm="24" :lg="12" style="padding-left: 50px">
+      <div id="orderClassChart" :style="{width: '1000px', height: '500px'}"></div>
+    </el-col>
+      <el-col :sm="24" :lg="12" style="padding-left: 50px">
+      <el-table v-loading="loading" :data="orderClassList" >
+        <el-table-column label="产品名" align="center" prop="name" />
+        <el-table-column label="数量" align="center" prop="value" />
+      </el-table>
+      </el-col>
+    </el-row>
   </div>
 </template>
 <script>
-import {listMaster, selectBizOrderMasterStatistics} from "@/api/biz/master";
+import {listMaster,selectBizOrderClass, selectBizOrderMasterStatistics} from "@/api/biz/master";
 export default {
   components: {},
   props: [],
   data() {
     return {
+      orderClassList: [],
       formData: {
         field114: undefined,
-        field105: null,
-        field108: undefined,
       },
       rules: {
         field114: [{
           required: true,
           message: '1老店2新店',
           trigger: 'blur'
-        }],
-        field105: [{
-          required: true,
-          message: '日期范围不能为空',
-          trigger: 'change'
         }],
       },
 
@@ -69,11 +69,12 @@ export default {
   mounted() {
     // this.drawOrderLine();
     this.getBizOrderMasterStatistics();
+    this.getBizOrderClass();
   },
   methods: {
-    drawOrderLine(orderStatic) {
-      console.log(orderStatic)
-      let myChart = this.$echarts.init(document.getElementById('orderChart'))
+
+    drawOrderLine(orderStatic,HTMLElement) {
+      let myChart = this.$echarts.init(HTMLElement)
       // 绘制图表
       var option = {
         title: {
@@ -180,6 +181,42 @@ export default {
       };
       myChart.setOption(option);
     },
+
+    drawOrderClass(orderClassStatic,HTMLElement){
+      let myChart = this.$echarts.init(HTMLElement)
+      var option;
+
+      option = {
+        title: {
+          text: '7天内产品分类',
+          subtext: '7天内产品分类',
+          left: 'center'
+        },
+        tooltip: {
+          trigger: 'item'
+        },
+        legend: {
+          orient: 'vertical',
+          left: 'left'
+        },
+        series: [
+          {
+            name: 'Access From',
+            type: 'pie',
+            radius: '50%',
+            data:orderClassStatic,
+            emphasis: {
+              itemStyle: {
+                shadowBlur: 10,
+                shadowOffsetX: 0,
+                shadowColor: 'rgba(0, 0, 0, 0.5)'
+              }
+            }
+          }
+        ]
+      };
+      myChart.setOption(option);
+    },
     submitForm() {
       this.$refs['elForm'].validate(valid => {
         if (!valid) return
@@ -193,11 +230,21 @@ export default {
 
     getBizOrderMasterStatistics() {
       this.loading = true;
-      selectBizOrderMasterStatistics().then(response => {
-        this.drawOrderLine(response.data);
+      selectBizOrderMasterStatistics({"type":this.formData.field114}).then(response => {
+        this.drawOrderLine(response.data, document.getElementById('orderChart'));
         this.loading = false;
       });
     },
+
+    getBizOrderClass(){
+      this.loading = true;
+      selectBizOrderClass({"type":this.formData.field114}).then(response => {
+
+        this.orderClassList =response.data;
+        this.drawOrderClass(response.data, document.getElementById('orderClassChart'));
+        this.loading = false;
+      });
+    }
   }
 }
 
