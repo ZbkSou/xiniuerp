@@ -47,6 +47,15 @@ export function selectBizOrderClass(data) {
     data: data
   })
 }
+
+export function selectBizOrderError(data) {
+  return request({
+    url: '/biz/master/selectBizOrderError',
+    method: 'post',
+    data: data
+  })
+}
+
 // 修改订单主
 export function updateMaster(data) {
   return request({

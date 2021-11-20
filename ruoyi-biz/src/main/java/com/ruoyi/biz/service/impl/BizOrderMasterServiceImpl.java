@@ -44,6 +44,14 @@ public class BizOrderMasterServiceImpl implements IBizOrderMasterService
     {
         return bizOrderMasterMapper.selectBizOrderClass(map);
     }
+
+    @Override
+    public Map<String,String> selectBizOrderError(Map<String,String> map)
+    {
+        return bizOrderMasterMapper.selectBizOrderError(map);
+    }
+
+
     /**
      * 查询订单主列表
      * 

@@ -33,6 +33,13 @@ public interface IBizOrderMasterService
      * @return
      */
     public List<Map<String,String>> selectBizOrderClass(Map<String,String> map);
+
+    /**
+     * 统计错误种类
+     * @return
+     */
+    public Map<String,String> selectBizOrderError(Map<String,String> map);
+
     /**
      * 查询订单主列表
      * 

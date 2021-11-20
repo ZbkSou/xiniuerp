@@ -202,6 +202,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         GROUP BY c.product_code
     </select>
 
+
+    <select id ="selectBizOrderError"  parameterType="hashmap" resultType="java.util.Map">
+        SELECT count (*) as value
+        FROM biz_order_master b
+        WHERE DATE_SUB(CURDATE(), INTERVAL 7 DAY) <![CDATA[ <= ]]>  b.create_time
+        <if test="remark != null and remark != ''">AND b.remark   like '%${remark}%'  </if>
+        <if test="customerId != null and customerId != ''">AND b.customer_id= #{customerId} </if>
+
+
+    </select>
+
+
+
     <insert id="insertBizOrderMaster" parameterType="BizOrderMaster" useGeneratedKeys="true" keyProperty="id">
         insert into biz_order_master
         <trim prefix="(" suffix=")" suffixOverrides=",">

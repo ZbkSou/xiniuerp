@@ -37,6 +37,18 @@ public interface BizOrderMasterMapper
      * @return 统计结果
      */
     public List<Map<String,String>> selectBizOrderClass(Map<String,String> map);
+
+
+
+    /**
+     * 统计错误订单种类
+     *
+     *
+     * @return 统计结果
+     */
+    public Map<String,String> selectBizOrderError(Map<String,String> map);
+
+
     /**
      * 查询订单主列表
      * 

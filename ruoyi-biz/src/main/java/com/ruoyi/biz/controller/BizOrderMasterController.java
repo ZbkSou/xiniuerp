@@ -128,14 +128,37 @@ public class BizOrderMasterController extends BaseController {
         List<Map<String,String>> maps = bizOrderMasterService.selectBizOrderClass(param);
         return AjaxResult.success(maps);
     }
-
+    /**
+     * 查询订单产品分类
+     */
+    @PreAuthorize("@ss.hasPermi('biz:master:list')")
+    @PostMapping("/selectBizOrderError")
+    public AjaxResult selectBizOrderError(String type){
+        Map<String,String> param = new HashMap<>();
+        if(type!=null){
+            param.put("customerId",type);
+        }
+        List<Map<String,String>> maps = new  ArrayList<>();
+        param.put("remark","破损");
+        Map<String,String> map = bizOrderMasterService.selectBizOrderError(param);
+        map.put("name","破损");
+        maps.add(map);
+        param.put("remark","残次");
+        map = bizOrderMasterService.selectBizOrderError(param);
+        map.put("name","残次");
+        maps.add(map);
+        param.put("remark","漏发");
+        map = bizOrderMasterService.selectBizOrderError(param);
+        map.put("name","漏发");
+        maps.add(map);
+        return AjaxResult.success(maps);
+    }
 
 
     private List<String> getDate(){
         Calendar begin = Calendar.getInstance();// 得到一个Calendar的实例
-        begin.setTime(new Date()); // 设置时间为当前时间
-        begin.add(Calendar.MONTH, -1);// 月份减1
-        begin.add(Calendar.DATE, +1);// 日期加1
+        begin.setTime(new Date()); // 设置时间为/ 月份减1
+        begin.add(Calendar.DATE, -29);// 日期加1
         Date result = begin.getTime();
         Calendar end = Calendar.getInstance();
         Long startTime = begin.getTimeInMillis();

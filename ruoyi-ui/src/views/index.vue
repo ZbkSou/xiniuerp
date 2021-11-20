@@ -38,6 +38,17 @@
       </el-table>
       </el-col>
     </el-row>
+    <el-row :gutter="20">
+      <el-col :sm="24" :lg="12" style="padding-left: 50px">
+        <div id="orderErrorChart" :style="{width: '1000px', height: '500px'}"></div>
+      </el-col>
+      <el-col :sm="24" :lg="12" style="padding-left: 50px">
+        <el-table v-loading="loading" :data="orderClassList" >
+          <el-table-column label="产品名" align="center" prop="name" />
+          <el-table-column label="数量" align="center" prop="value" />
+        </el-table>
+      </el-col>
+    </el-row>
   </div>
 </template>
 <script>
@@ -48,6 +59,7 @@ export default {
   data() {
     return {
       orderClassList: [],
+      orderErrList: [],
       formData: {
         field114: undefined,
       },
@@ -70,6 +82,7 @@ export default {
     // this.drawOrderLine();
     this.getBizOrderMasterStatistics();
     this.getBizOrderClass();
+    this.getBizOrderError();
   },
   methods: {
 
@@ -244,7 +257,17 @@ export default {
         this.drawOrderClass(response.data, document.getElementById('orderClassChart'));
         this.loading = false;
       });
+    },
+    getBizOrderError(){
+      this.loading = true;
+      selectBizOrderError({"type":this.formData.field114}).then(response => {
+
+        this.orderErrList =response.data;
+        this.drawOrderClass(response.data, document.getElementById('orderErrorChart'));
+        this.loading = false;
+      });
     }
+
   }
 }
 
